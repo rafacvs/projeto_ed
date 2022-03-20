@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
-
 #include "pilha.h"
 
 #define baralhoSize 52
