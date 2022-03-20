@@ -1,5 +1,5 @@
 #include <stdio.h>
-
+//salve, so pra testar
 #include "pilha.h"
 
 #define baralhoSize 52
