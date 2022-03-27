@@ -15,5 +15,9 @@ unsigned tamanho(pilha *p);
 void insere(pilha *p, CARTA item, int size);
 void retira(pilha *p);
 int topo(pilha *p, CARTA *item);
+int destroi(pilha *p);
+int esvazia(pilha *p);
+
+
 
 #endif

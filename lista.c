@@ -1,24 +1,17 @@
 #include "lista.h"
-
 #include <stdio.h>
 #include <stdlib.h>
-// Ivan Capeli Navas
-// 802286
+
 
 int size(LISTA* p) {
-  POINTER end = p->head->next;
-  int tam = 0;
-  while (end != p->head) {
-    tam++;
-    end = end->next;
-  }
-  return tam;
+    return p->qtd;
 }
 
 void initialize(LISTA* p) {
-  p->head = (POINTER)malloc(sizeof(ELEM));
-  p->head->next = p->head;
+  p->head = (POINTER)malloc(sizeof(ELEM));//aloca espaco para a sentinela
+  p->head->next = p->head;//inicializa os ponteiros para a propria sentinela, ate que algum elemento seja adicionado
   p->head->prev = p->head;
+  p->qtd = 0;//tamanho comeca em 0.
 }
 
 void insert(LISTA* p, REG reg) {
@@ -32,13 +25,14 @@ void insert(LISTA* p, REG reg) {
     p->head->next->prev = new;  // elemento que antes era o primeiro aponta como antecessor o novo elemento.
   }
 
-  p->head->next = new;  // proximo da cabe�a aponta para o elemento novo.
+  p->head->next = new;  // proximo da cabeca aponta para o elemento novo.
 
-  new->prev = p->head;  // elemento novo aponta pra cabe�a como antecessor
+  new->prev = p->head;  // elemento novo aponta pra cabeca como antecessor
 
   if (tam == 0) {
     p->head->prev = new;  // Se for o primeito elemento a ser adicionado o antecessor da cabeca aponta pra ele.
   }
+  p->qtd++;
 }
 
 void printar(LISTA* p) {
@@ -54,12 +48,13 @@ void Endinsert(LISTA* p, REG reg) {
   POINTER new = (POINTER)malloc(sizeof(ELEM));
   new->reg = reg;
 
-  new->next = p->head;        // o proximo elemento do final �  a cabeca.
-  new->prev = p->head->prev;  // o antes do novo agr � o elemento que era antes da cabeca;
+  new->next = p->head;        // o proximo elemento do final   a cabeca.
+  new->prev = p->head->prev;  // o antes do novo agr  o elemento que era antes da cabeca;
 
   new->prev->next = new;  // o elemento anterior agr aponta para o elemento novo
 
   p->head->prev = new;  // o anterior da cabeca agr � o novo.
+  p->qtd++;
 }
 
 int removeItem(LISTA* p, REG reg) {
@@ -74,7 +69,7 @@ int removeItem(LISTA* p, REG reg) {
   remove->next->prev = p->head;
 
   free(remove);
-
+  p->qtd--;
   return itemremovido;
 }
 
@@ -84,11 +79,12 @@ int EndremoveItem(LISTA* p, REG reg) {
   int itemremovido = reg.chave;
 
   if (p->head->prev == p->head) {
-    return -1;  // Espero que nao de problema, em tese nao � pra entrar aqui.
+    return -1;
   }
   p->head->prev = remove->prev;  // anterior da cabeca agr aponta para o elemento anterior ao removido.
   remove->prev->next = p->head;  // o elemento anterior do removido agr aponta para a cabeca.
   free(remove);
+  p->qtd--;
   return itemremovido;
 }
 
@@ -99,6 +95,10 @@ void clearLISTA(LISTA* p) {
     removeItem(p, p->head->next->reg);
     i++;
   }
-  // free(p->head);
-  free(p);
+  p->qtd =0;
+
+}
+void destroiLista(LISTA *p){
+    clearLISTA(p);
+    free(p);
 }

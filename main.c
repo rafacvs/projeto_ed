@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <time.h>
 
+#include "lista.h"
 #include "pilha.h"
 #include "utils.h"
 
@@ -18,6 +19,25 @@ int main() {
   for (int i = 0; i < baralhoSize; i++) {
     insere(&p, baralho[i], baralhoSize);
   }
+  LISTA* l;
+  REG reg;
+
+  reg.chave = 5;
+
+  initialize(l);
+  insert(l,reg);
+  reg.chave = 7;
+
+  printf("tamnho = %d\n", size(l));
+  Endinsert(l,reg);
+  reg.chave = 9;
+  Endinsert(l,reg);
+  printar(l);
+  EndremoveItem(l,reg);
+  printf("tamnho = %d\n", size(l));
+  printar(l);
+  clearLISTA(l);
+  printf("tamnho = %d\n", size(l));
 
   printf("is cheia? %i\n\n", cheia(&p, baralhoSize));
 

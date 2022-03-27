@@ -12,6 +12,7 @@ typedef struct {
 
 typedef struct aux {
   REG reg;
+
   struct aux* prev;
   struct aux* next;
 } ELEM;
@@ -20,6 +21,7 @@ typedef ELEM* POINTER;
 
 typedef struct {
   POINTER head;
+  unsigned qtd;
 } LISTA;
 
 void initialize(LISTA* p);
@@ -32,7 +34,7 @@ int EndremoveItem(LISTA* p, REG reg);
 
 int size(LISTA* p);
 void printar(LISTA* p);
-
-void clearLista(LISTA* p);
+void destroiLista(LISTA *p);
+void clearLISTA(LISTA* p);
 
 #endif

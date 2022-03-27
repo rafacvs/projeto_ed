@@ -1,6 +1,7 @@
 #include "pilha.h"
 #include <stdio.h>
 #include <stdlib.h>
+
 void inicializa(pilha *p, int size) {
   p->v = (char *)malloc(size * sizeof(char));
 
@@ -16,7 +17,7 @@ int cheia(pilha *p, int size) {
 }
 
 unsigned tamanho(pilha *p) {
-  return p->topo;//topo guarda o n° de elementos
+  return p->topo;//topo guarda o numero de elementos
 }
 
 void insere(pilha *p, CARTA item, int size) {
@@ -34,8 +35,18 @@ void retira(pilha *p) {
 
 int topo(pilha *p, CARTA *item) {
   if (!vazia(p)) {
-    *item = p->v[p->topo - 1];//coloca o ultimo elemento no endereço de item. retorna 1 caso tenha sucesso.
+    *item = p->v[p->topo - 1];//coloca o ultimo elemento no endereï¿½o de item. retorna 1 caso tenha sucesso.
     return 1;
   }
   return 0;
 }
+int destroi(pilha *p){
+    free(p);
+    return 1;
+}
+
+int esvazia(pilha *p){
+    p->topo = 0;
+    return 0;
+}
+
