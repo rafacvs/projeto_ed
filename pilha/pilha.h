@@ -1,19 +1,19 @@
 #ifndef PILHA_H
 #define PILHA_H
 
-typedef char T;
+typedef char CARTA;
 
 typedef struct {
   unsigned topo;
-  T *v;
+  CARTA *v;
 } pilha;
 
 void inicializa(pilha *p, int size);
 int vazia(pilha *p);
 int cheia(pilha *p, int size);
 unsigned tamanho(pilha *p);
-void insere(pilha *p, T item, int size);
+void insere(pilha *p, CARTA item, int size);
 void retira(pilha *p);
-int topo(pilha *p, T *item);
+int topo(pilha *p, CARTA *item);
 
 #endif
