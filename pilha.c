@@ -2,51 +2,51 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-void inicializa(pilha *p, int size) {
+void inicializePilha(pilha *p, int size) {
   p->v = (char *)malloc(size * sizeof(char));
 
   p->topo = 0;
 }
 
-int vazia(pilha *p) {
+int emptyPilha(pilha *p) {
   return p->topo == 0;//Retorna 1 se estiver vazia.
 }
 
-int cheia(pilha *p, int size) {
+int fullPilha(pilha *p, int size) {
   return p->topo == size;//Retorna 1 se estiver cheia.
 }
 
-unsigned tamanho(pilha *p) {
+unsigned sizePilha(pilha *p) {
   return p->topo;//topo guarda o numero de elementos
 }
 
-void insere(pilha *p, CARTA item, int size) {
+void insertPilha(pilha *p, CARTA item, int size) {
   if (!cheia(p, size)) {
     p->v[p->topo] = item;
     p->topo++;
   }
 }
 
-void retira(pilha *p) {
+void removePilha(pilha *p) {
   if (!vazia(p)) {
     p->topo--;
   }
 }
 
-int topo(pilha *p, CARTA *item) {
+int topoPilha(pilha *p, CARTA *item) {
   if (!vazia(p)) {
     *item = p->v[p->topo - 1];//coloca o ultimo elemento no endere�o de item. retorna 1 caso tenha sucesso.
     return 1;
   }
   return 0;
 }
-int destroi(pilha *p){
+
+int destroiPilha(pilha *p) {
     free(p);
     return 1;
 }
 
-int esvazia(pilha *p){
+int clearPilha(pilha *p) {
     p->topo = 0;
     return 0;
 }
-
