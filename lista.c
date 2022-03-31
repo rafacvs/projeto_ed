@@ -44,7 +44,7 @@ void printaLista(lista *l) {  // percorre a lista inteira e printa seus respecti
   int result = 0;
   POINTER end = l->head->next;
   while (end != l->head) {
-    printf("Carta %c\n", end->reg.chave);
+    printf("carta %c\n", end->reg.chave);
     end = end->next;
   }
 }

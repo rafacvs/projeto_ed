@@ -13,6 +13,38 @@ typedef struct {
   int gameover;
 } PERSON;
 
+void comprarCarta(pilha *p, int current, PERSON *jogador) {
+  int aceValue = -1;
+  char option;
+
+  REG reg;
+
+  topoPilha(p, &reg.chave);
+
+  if (reg.chave == 'X') {
+    printf("carta %i = 10\n", current);
+  } else {
+    printf("carta %i = %c\n", current, reg.chave);
+  }
+
+  if (reg.chave == 65) {
+    printf("A vale 11? (S ou N)\n");
+    scanf("%c", &option);
+
+    if (option == 'S') {
+      aceValue = 1;
+    } else {
+      aceValue = 0;
+    }
+  }
+
+  jogador->soma += getValue(reg.chave, aceValue);
+
+  insertLista(&jogador->mao, reg);
+
+  removePilha(p);
+}
+
 int main() {
   int qtdJogadores;
 
@@ -38,29 +70,25 @@ int main() {
 
     printf("JOGADOR %i\n", i + 1);
     for (int j = 0; j < 2; j++) {
-      int aceValue = -1;
-
-      REG reg;
-
-      topoPilha(&p, &reg.chave);
-
-      if (reg.chave == 65) {
-        printf("A vale 11? 1 pra SIM 0 pra NAO\n");
-        scanf("%i", &aceValue);
-      }
-
-      jogadores[i].soma += getValue(reg.chave, aceValue);
-
-      insertLista(&jogadores[i].mao, reg);
-
-      removePilha(&p);
+      comprarCarta(&p, j + 1, &jogadores[i]);
     }
-    printaLista(&jogadores[i].mao);
 
     printf("soma = %i\n", jogadores[i].soma);
 
     printf("\n");
   }
+
+  // for (int i = 0; i < qtdJogadores; i++) {
+  //   char option;
+
+  //   printf("O que voce deseja?\n");
+  //   printf("Comprar mais ou parar? (C ou P)\n");
+
+  //   scanf("%c", &option);
+
+  //   if (option == 'C') {
+  //   }
+  // }
 
   return 0;
 }
