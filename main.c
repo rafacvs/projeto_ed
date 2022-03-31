@@ -8,8 +8,9 @@
 #define baralhoSize 52
 
 typedef struct {
-  int gameover;
   lista mao;
+  int soma;
+  int gameover;
 } PERSON;
 
 int main() {
@@ -32,18 +33,23 @@ int main() {
   PERSON jogadores[qtdJogadores];
 
   for (int i = 0; i < qtdJogadores; i++) {
+    jogadores[i].soma = 0;
     initializeLista(&jogadores[i].mao);
 
     printf("JOGADOR %i\n", i + 1);
     for (int j = 0; j < 2; j++) {
+      int aceValue = -1;
+
       REG reg;
 
       topoPilha(&p, &reg.chave);
 
-      printf("Carta %i = %c\n", j + 1, reg.chave);
+      if (reg.chave == 65) {
+        printf("A vale 11? 1 pra SIM 0 pra NAO\n");
+        scanf("%i", &aceValue);
+      }
 
-      // printf("ponteiro: %p\n", &jogadores[i]);
-      // printf("ponteiro: %p\n", &jogadores[i].mao);
+      jogadores[i].soma += getValue(reg.chave, aceValue);
 
       insertLista(&jogadores[i].mao, reg);
 
@@ -51,28 +57,10 @@ int main() {
     }
     printaLista(&jogadores[i].mao);
 
+    printf("soma = %i\n", jogadores[i].soma);
+
     printf("\n");
   }
 
-  // for (int i = 0; i < qtdJogadores; i++) {
-  //   printf("JOGADOR %i\n", i + 1);
-
-  //   printaLista(&jogadores[i].mao);
-  //   printf("\n\n");
-  // }
-
-  // for (int i = 0; i < baralhoSize; i++) {
-  //   char r;
-
-  //   if (topoPilha(&p, &r)) {
-  //     if (r == 'X') {
-  //       printf("10");
-  //     } else {
-  //       printf("%c", r);
-  //     }
-  //     printf("\n");
-  //     removePilha(&p);
-  //   }
-  // }
   return 0;
 }
