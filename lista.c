@@ -1,16 +1,19 @@
 #include "lista.h"
+
 #include <stdio.h>
 #include <stdlib.h>
 
 int sizeLista(lista *l) {
+
     return l->qtd;// Retorna o campo que contem o numero de itens da estrutura.
+
 }
 
 void initializeLista(lista *l) {
-  l->head = (POINTER)malloc(sizeof(ELEM));//aloca espaco para a sentinela
-  l->head->next = l->head;//inicializa os ponteiros para a propria sentinela, ate que algum elemento seja adicionado
+  l->head = (POINTER)malloc(sizeof(ELEM));  // aloca espaco para a sentinela
+  l->head->next = l->head;                  // inicializa os ponteiros para a propria sentinela, ate que algum elemento seja adicionado
   l->head->prev = l->head;
-  l->qtd = 0;//tamanho comeca em 0.
+  l->qtd = 0;  // tamanho comeca em 0.
 }
 
 void insertLista(lista *l, REG reg) {//funcao para inserir no comeco da lista, isso eh, logo dps da sentinela
@@ -35,7 +38,7 @@ void insertLista(lista *l, REG reg) {//funcao para inserir no comeco da lista, i
   l->qtd++;
 }
 
-void printaLista(lista *l) { //percorre a lista inteira e printa seus respectivos elementos/chaves;
+void printaLista(lista *l) {  // percorre a lista inteira e printa seus respectivos elementos/chaves;
   int result = 0;
   POINTER end = l->head->next;
   while (end != l->head) {
@@ -96,6 +99,7 @@ void clearLista(lista *l) {//percorre a lista e esvazia.O(N);
     removeItemLista(l, l->head->next->reg);
     i++;
   }
+
   l->qtd =0;//Seta a quantidade =0.
 
 }
@@ -103,4 +107,5 @@ void clearLista(lista *l) {//percorre a lista e esvazia.O(N);
 void destroiLista(lista *l) {
     clearLista(l);//esvazia a lista.  
     free(l->head);//destroi a lista.
+
 }
