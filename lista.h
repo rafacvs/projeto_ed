@@ -8,11 +8,11 @@ typedef struct {
 typedef struct aux {
   REG reg;
 
-  struct aux* prev;
-  struct aux* next;
+  struct aux *prev;
+  struct aux *next;
 } ELEM;
 
-typedef ELEM* POINTER;
+typedef ELEM *POINTER;
 
 typedef struct {
   POINTER head;

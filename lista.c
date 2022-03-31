@@ -1,16 +1,17 @@
 #include "lista.h"
+
 #include <stdio.h>
 #include <stdlib.h>
 
 int sizeLista(lista *l) {
-    return l->qtd;
+  return l->qtd;
 }
 
 void initializeLista(lista *l) {
-  l->head = (POINTER)malloc(sizeof(ELEM));//aloca espaco para a sentinela
-  l->head->next = l->head;//inicializa os ponteiros para a propria sentinela, ate que algum elemento seja adicionado
+  l->head = (POINTER)malloc(sizeof(ELEM));  // aloca espaco para a sentinela
+  l->head->next = l->head;                  // inicializa os ponteiros para a propria sentinela, ate que algum elemento seja adicionado
   l->head->prev = l->head;
-  l->qtd = 0;//tamanho comeca em 0.
+  l->qtd = 0;  // tamanho comeca em 0.
 }
 
 void insertLista(lista *l, REG reg) {
@@ -35,7 +36,7 @@ void insertLista(lista *l, REG reg) {
   l->qtd++;
 }
 
-void printaLista(lista *l) { //percorre a lista inteira e printa seus respectivos elementos/chaves;
+void printaLista(lista *l) {  // percorre a lista inteira e printa seus respectivos elementos/chaves;
   int result = 0;
   POINTER end = l->head->next;
   while (end != l->head) {
@@ -95,12 +96,10 @@ void clearLista(lista *l) {
     removeItemLista(l, l->head->next->reg);
     i++;
   }
-  l->qtd =0;
-
+  l->qtd = 0;
 }
 
 void destroiLista(lista *l) {
-    clearLista(l);
-    free(l->head);
-    free(l);
+  clearLista(l);
+  free(l->head);
 }
