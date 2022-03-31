@@ -21,20 +21,20 @@ unsigned sizePilha(pilha *p) {
 }
 
 void insertPilha(pilha *p, CARTA item, int size) {
-  if (!cheia(p, size)) {
+  if (!fullPilha(p, size)) {
     p->v[p->topo] = item;
     p->topo++;
   }
 }
 
 void removePilha(pilha *p) {
-  if (!vazia(p)) {
+  if (!emptyPilha(p)) {
     p->topo--;
   }
 }
 
 int topoPilha(pilha *p, CARTA *item) {
-  if (!vazia(p)) {
+  if (!emptyPilha(p)) {
     *item = p->v[p->topo - 1];//coloca o ultimo elemento no endere�o de item. retorna 1 caso tenha sucesso.
     return 1;
   }

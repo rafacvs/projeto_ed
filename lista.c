@@ -35,7 +35,7 @@ void insertLista(lista *l, REG reg) {
   l->qtd++;
 }
 
-void printaLista(lista *l) {
+void printaLista(lista *l) { //percorre a lista inteira e printa seus respectivos elementos/chaves;
   int result = 0;
   POINTER end = l->head->next;
   while (end != l->head) {
