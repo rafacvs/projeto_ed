@@ -2,6 +2,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+/*
+Gabriel Bellon de Carvalho - 802430
+Ivan Capeli Navas - 802286
+Rafael de Campos Villa da Silveira - 801968
+*/
+
 void inicializePilha(pilha *p, int size) {
   p->v = (char *)malloc(size * sizeof(char)); // Aloca dinamicamente um espaço de memoria do tamanho size.
 

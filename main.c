@@ -1,10 +1,12 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <time.h>
 
 #include "lista.h"
 #include "pilha.h"
 #include "utils.h"
+
+
+
 
 #define baralhoSize 52
 

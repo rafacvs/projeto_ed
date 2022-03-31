@@ -2,7 +2,11 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-
+/*
+Gabriel Bellon de Carvalho - 802430
+Ivan Capeli Navas - 802286
+Rafael de Campos Villa da Silveira - 801968
+*/
 int sizeLista(lista *l) {
 
     return l->qtd;// Retorna o campo que contem o numero de itens da estrutura.
