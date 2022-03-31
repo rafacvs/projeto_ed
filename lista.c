@@ -8,9 +8,7 @@ Ivan Capeli Navas - 802286
 Rafael de Campos Villa da Silveira - 801968
 */
 int sizeLista(lista *l) {
-
-    return l->qtd;// Retorna o campo que contem o numero de itens da estrutura.
-
+  return l->qtd;  // Retorna o campo que contem o numero de itens da estrutura.
 }
 
 void initializeLista(lista *l) {
@@ -20,10 +18,10 @@ void initializeLista(lista *l) {
   l->qtd = 0;  // tamanho comeca em 0.
 }
 
-void insertLista(lista *l, REG reg) {//funcao para inserir no comeco da lista, isso eh, logo dps da sentinela
-  POINTER new = (POINTER)malloc(sizeof(ELEM));//pointer eh um typedef, ponteiro do tipo ELEM.
-  new->reg = reg;//coloca o registro no seu respectivo campo, o registro eh o dado em si.
-  int tam = sizeLista(l);//chama a funcao do tamanho e retorna-o.
+void insertLista(lista *l, REG reg) {           // funcao para inserir no comeco da lista, isso eh, logo dps da sentinela
+  POINTER new = (POINTER)malloc(sizeof(ELEM));  // pointer eh um typedef, ponteiro do tipo ELEM.
+  new->reg = reg;                               // coloca o registro no seu respectivo campo, o registro eh o dado em si.
+  int tam = sizeLista(l);                       // chama a funcao do tamanho e retorna-o.
 
   new->next = l->head->next;  // Elemento a ser inserido aponta para o proximo.
 
@@ -51,7 +49,7 @@ void printaLista(lista *l) {  // percorre a lista inteira e printa seus respecti
   }
 }
 
-void insertEndLista(lista *l, REG reg) {//insere um elemento no final da lista.
+void insertEndLista(lista *l, REG reg) {  // insere um elemento no final da lista.
   POINTER new = (POINTER)malloc(sizeof(ELEM));
   new->reg = reg;
 
@@ -64,25 +62,25 @@ void insertEndLista(lista *l, REG reg) {//insere um elemento no final da lista.
   l->qtd++;
 }
 
-int removeItemLista(lista *l, REG reg) {//remove um item do comeco da lista
+int removeItemLista(lista *l, REG reg) {  // remove um item do comeco da lista
   POINTER remove = l->head->next;
   reg = remove->reg;
-  int itemremovido = reg.chave;//coloca o item a ser removido em uma variavel
+  int itemremovido = reg.chave;  // coloca o item a ser removido em uma variavel
 
-  if (l->head->next == l->head) {//caso o proximo elemento da sentinela for ela mesmo.
+  if (l->head->next == l->head) {  // caso o proximo elemento da sentinela for ela mesmo.
     return -1;
   }
 
-  l->head->next = remove->next;//agr o proximo da sentinela apontara para o elemento depois do removido.
-  remove->next->prev = l->head;//agora o elemento depois do removido tem como anterior a sentinela.
+  l->head->next = remove->next;  // agr o proximo da sentinela apontara para o elemento depois do removido.
+  remove->next->prev = l->head;  // agora o elemento depois do removido tem como anterior a sentinela.
 
-  free(remove);//libera a memoria do elemento a ser removido.
+  free(remove);  // libera a memoria do elemento a ser removido.
   l->qtd--;
   return itemremovido;
 }
 
-int removeItemEndLista(lista *l, REG reg) {//Remove o ultimo elemento da estrutura.
-  POINTER remove = l->head->prev;//ultimo elemento.
+int removeItemEndLista(lista *l, REG reg) {  // Remove o ultimo elemento da estrutura.
+  POINTER remove = l->head->prev;            // ultimo elemento.
   reg = remove->reg;
   int itemremovido = reg.chave;
 
@@ -91,12 +89,12 @@ int removeItemEndLista(lista *l, REG reg) {//Remove o ultimo elemento da estrutu
   }
   l->head->prev = remove->prev;  // anterior da cabeca agr aponta para o elemento anterior ao removido.
   remove->prev->next = l->head;  // o elemento anterior do removido agr aponta para a cabeca.
-  free(remove);//libera a memoria do item removido.
+  free(remove);                  // libera a memoria do item removido.
   l->qtd--;
   return itemremovido;
 }
 
-void clearLista(lista *l) {//percorre a lista e esvazia.O(N);
+void clearLista(lista *l) {  // percorre a lista e esvazia.O(N);
   int i = 0;
   // tirar a cabeca por ultimo.
   while (i <= sizeLista(l)) {
@@ -104,12 +102,10 @@ void clearLista(lista *l) {//percorre a lista e esvazia.O(N);
     i++;
   }
 
-  l->qtd =0;//Seta a quantidade =0.
-
+  l->qtd = 0;  // Seta a quantidade =0.
 }
 
 void destroiLista(lista *l) {
-    clearLista(l);//esvazia a lista.  
-    free(l->head);//destroi a lista.
-
+  clearLista(l);  // esvazia a lista.
+  free(l->head);  // destroi a lista.
 }

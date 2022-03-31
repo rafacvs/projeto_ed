@@ -32,22 +32,33 @@ int main() {
   PERSON jogadores[qtdJogadores];
 
   for (int i = 0; i < qtdJogadores; i++) {
-    for (int j = 0; j < 1; j++) {
+    initializeLista(&jogadores[i].mao);
+
+    printf("JOGADOR %i\n", i + 1);
+    for (int j = 0; j < 2; j++) {
       REG reg;
 
       topoPilha(&p, &reg.chave);
 
-      printf("ponteiro: %p\n", &jogadores[i]);
-      printf("ponteiro: %p\n", &jogadores[i].mao);
+      printf("Carta %i = %c\n", j + 1, reg.chave);
 
-      // insertLista(&jogadores[i].mao, reg);
-      // removePilha(&p);
+      // printf("ponteiro: %p\n", &jogadores[i]);
+      // printf("ponteiro: %p\n", &jogadores[i].mao);
+
+      insertLista(&jogadores[i].mao, reg);
+
+      removePilha(&p);
     }
+    printaLista(&jogadores[i].mao);
+
     printf("\n");
   }
 
   // for (int i = 0; i < qtdJogadores; i++) {
+  //   printf("JOGADOR %i\n", i + 1);
+
   //   printaLista(&jogadores[i].mao);
+  //   printf("\n\n");
   // }
 
   // for (int i = 0; i < baralhoSize; i++) {
