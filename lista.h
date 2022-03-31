@@ -2,7 +2,7 @@
 #define LISTA_H
 
 typedef struct {
-  int chave;
+  char chave;
 } REG;
 
 typedef struct aux {
