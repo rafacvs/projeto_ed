@@ -29,7 +29,7 @@ void comprarCarta(pilha *p, int current, PERSON *jogador) {
 
   if (reg.chave == 65) {
     printf("A vale 11? (S ou N)\n");
-    scanf("%c", &option);
+    scanf(" %c", &option);
 
     if (option == 'S') {
       aceValue = 1;
