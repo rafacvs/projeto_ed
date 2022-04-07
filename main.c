@@ -13,7 +13,7 @@ typedef struct {
   int gameover;
 } PERSON;
 
-void comprarCarta(pilha *p, int current, PERSON *jogador) {
+void comprarCarta(pilha *p, PERSON *jogador) {
   int aceValue = -1;
   char option;
 
@@ -22,9 +22,9 @@ void comprarCarta(pilha *p, int current, PERSON *jogador) {
   topoPilha(p, &reg.chave);
 
   if (reg.chave == 'X') {
-    printf("carta %i = 10\n", current);
+    printf("carta = 10\n");
   } else {
-    printf("carta %i = %c\n", current, reg.chave);
+    printf("carta = %c\n", reg.chave);
   }
 
   if (reg.chave == 65) {
@@ -61,6 +61,9 @@ int main() {
 
   printf("Insira a quantidade de jogadores:\n");
   scanf("%i", &qtdJogadores);
+  qtdJogadores++;  // jogadores qtd - 1 = mesa
+
+  printf("\n\n");
 
   PERSON jogadores[qtdJogadores];
 
@@ -68,9 +71,14 @@ int main() {
     jogadores[i].soma = 0;
     initializeLista(&jogadores[i].mao);
 
-    printf("JOGADOR %i\n", i + 1);
+    if (i == qtdJogadores - 1) {
+      printf("MESA %i\n", i + 1);
+    } else {
+      printf("JOGADOR %i\n", i + 1);
+    }
+
     for (int j = 0; j < 2; j++) {
-      comprarCarta(&p, j + 1, &jogadores[i]);
+      comprarCarta(&p, &jogadores[i]);
     }
 
     printf("soma = %i\n", jogadores[i].soma);
@@ -78,17 +86,35 @@ int main() {
     printf("\n");
   }
 
-  // for (int i = 0; i < qtdJogadores; i++) {
-  //   char option;
+  // ------------------------------------------------------------------------------------------------------------------------
 
-  //   printf("O que voce deseja?\n");
-  //   printf("Comprar mais ou parar? (C ou P)\n");
+  for (int i = 0; i < qtdJogadores - 1; i++) {
+    int stop = 0;
+    char option;
 
-  //   scanf("%c", &option);
+    printf("\n-----------\nJogador %i\n", i + 1);
 
-  //   if (option == 'C') {
-  //   }
-  // }
+    while (stop == 0) {
+      if (jogadores[i].soma > 21) {
+        printf("\nPERDESTES!\n");
+        jogadores[i].gameover = 1;
+        stop = 1;
+        break;
+      }
 
-  return 0;
+      printf("O que voce deseja?\n\n");
+      printf("soma atual: %i\n\n", jogadores[i].soma);
+      printf("Comprar mais ou parar? (C ou P)\n");
+
+      scanf(" %c", &option);
+      if (option == 'C') {
+        comprarCarta(&p, &jogadores[i]);
+        printf("\n");
+      } else {
+        stop = 1;
+      }
+    }
+  }
+
+    return 0;
 }
