@@ -4,6 +4,7 @@
 #include "lista.h"
 #include "pilha.h"
 #include "utils.h"
+#include "iterador.h"
 
 #define baralhoSize 52
 
@@ -116,5 +117,13 @@ int main() {
     }
   }
 
+
+ ite iterador = first(&jogadores[0].mao);
+ ite ultimo = last(&jogadores[0].mao);
+ printf("primeiro elemento da mao do jogador 1 - %c\n\n\n", elemento(iterador));
+ printf("proximo elemento da mao do jogador 1 - %c\n\n\n", elemento(next(iterador)));
+
+
+ printaLista(&jogadores[0].mao);
   return 0;
 }
