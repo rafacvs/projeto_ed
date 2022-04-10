@@ -30,3 +30,28 @@ ite next(ite l){
 int acabou( ite i ) {
     return i.posicao->next == i.estrutura->head;
 }
+//para adicionar no meio, tem duas opções, dps de certo item, ou antes
+// se foi dps do el2 ficaria =   <-head -> (<-el1) -> (<-el2) -> (<-el3)
+// <-head -> (<-el1) -> (<-el2) ->(<-el4)-> (<-el3)
+
+void insertMiddleLista(lista *l,REG reg, ite i){
+    POINTER new = (POINTER)malloc(sizeof(ELEM));
+    new->reg = reg;
+    int tam = sizeLista(l);
+
+    new->next = i.posicao->next;
+    i.posicao->next->prev = new;//caso especial, um item na lista.
+    i.posicao->next = new;
+    new->prev = i.posicao;
+
+    l->qtd++;
+}
+int removeItemMiddleLista(lista *l, REG reg, ite i){
+    if(acabou(i)){
+        return -1;//so nao posso remover a head/sentinela.
+    }
+    POINTER remove = (POINTER)malloc(sizeof(ELEM));
+
+
+}
+

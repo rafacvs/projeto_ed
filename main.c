@@ -25,7 +25,7 @@ void comprarCarta(pilha *p, PERSON *jogador) {
   if (reg.chave == 'X') {
     printf("carta = 10\n");
   } else {
-    printf("carta = %c\n", reg.chave);
+    printf("carta = %c\n", reg.chave);//mudar o acesso ao campo, com iterador.
   }
 
   if (reg.chave == 65) {
@@ -116,12 +116,14 @@ int main() {
       }
     }
   }
-
+  REG teste;
+  teste.chave = 'E';
 
  ite iterador = first(&jogadores[0].mao);
- ite ultimo = last(&jogadores[0].mao);
+ insertMiddleLista(&jogadores[0].mao,teste, iterador);
+ //ite ultimo = last(&jogadores[0].mao);
  printf("primeiro elemento da mao do jogador 1 - %c\n\n\n", elemento(iterador));
- printf("proximo elemento da mao do jogador 1 - %c\n\n\n", elemento(next(iterador)));
+ printf("proximo elemento da mao do jogador 1 - %c\n\n\n", elemento(next((next(iterador)))));
 
 
  printaLista(&jogadores[0].mao);

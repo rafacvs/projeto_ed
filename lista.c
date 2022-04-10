@@ -1,5 +1,6 @@
 #include "lista.h"
 
+
 #include <stdio.h>
 #include <stdlib.h>
 /*
@@ -109,3 +110,5 @@ void destroiLista(lista *l) {
   clearLista(l);  // esvazia a lista.
   free(l->head);  // destroi a lista.
 }
+
+

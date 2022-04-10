@@ -2,6 +2,7 @@
 #define ITERADOR_H
 
 #include "lista.h"
+
 /*
 Gabriel Bellon de Carvalho - 802430
 Ivan Capeli Navas - 802286
@@ -19,5 +20,7 @@ ite last(lista* l);
 ite next(ite l);
 int acabou( ite i );
 char elemento(ite l);
+
+void insertMiddleLista(lista *l,REG reg, ite i);
 #endif
 
