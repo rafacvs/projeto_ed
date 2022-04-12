@@ -46,8 +46,11 @@ void clearLista(lista *l);
 ite first(lista* l );
 ite last(lista* l);
 ite next(ite l);
+
 int acabou( ite i );
+
 char elemento(ite l);
+char removeItemMiddleLista(lista *l, REG reg, ite i);
 
 void insertMiddleLista(lista *l,REG reg, ite i);
 

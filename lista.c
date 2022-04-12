@@ -130,7 +130,7 @@ char elemento(ite l){
 }
 
 ite next(ite l){
-    if(!acabou(l)){
+    if(!acabou(l) || l.estrutura->qtd==0){
         l.posicao = l.posicao->next;
         return l;
     }//oq fazer se estiver no ultimo ?
@@ -140,6 +140,7 @@ ite next(ite l){
 int acabou( ite i ) {
     return i.posicao->next == i.estrutura->head;
 }
+
 //para adicionar no meio, tem duas opções, dps de certo item, ou antes
 // se foi dps do el2 ficaria =   <-head -> (<-el1) -> (<-el2) -> (<-el3)
 // <-head -> (<-el1) -> (<-el2) ->(<-el4)-> (<-el3)
@@ -156,11 +157,29 @@ void insertMiddleLista(lista *l,REG reg, ite i){
 
     l->qtd++;
 }
-int removeItemMiddleLista(lista *l, REG reg, ite i){
-    if(acabou(i)){
+
+char removeItemMiddleLista(lista *l, REG reg, ite i){//remove o item que o iterador aponta.
+    if(l->qtd==0){
         return -1;//so nao posso remover a head/sentinela.
     }
+    ite inicio = first(l);
     POINTER remove = (POINTER)malloc(sizeof(ELEM));
+    reg = remove->reg;
+    int itemremovido = reg.chave;
 
+    if(acabou(i)){//caso o item seja o ultimo da lista.
+        itemremovido = removeItemEndLista(l,reg);
+        return itemremovido;
+    }
+    else if(inicio.posicao == i.posicao){//caso seja o primeiro elemento.
+        itemremovido = removeItemLista(l,reg);
+        return itemremovido;
+    }
 
+    i.posicao->next->prev = i.posicao->prev;//proximo do item removido agr aponta para o anterior do removido.
+    i.posicao->prev->next = i.posicao->next;//anterior aponta para o proximo.
+
+    free(remove);
+    l->qtd--;
+    return itemremovido;
 }

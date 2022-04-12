@@ -120,11 +120,30 @@ int main() {
 
  ite iterador = first(&jogadores[0].mao);
  insertMiddleLista(&jogadores[0].mao,teste, iterador);
+ ite it1 = next(iterador);//apos removido tem que ser tratado corretamente.
+ removeItemMiddleLista(&jogadores[0].mao,teste,it1);//remove o item do meio E retorna seu elemento.
+ it1 = next(iterador);
+ removeItemMiddleLista(&jogadores[0].mao,teste,it1);
+ printf("IT1 1 - %c\n\n\n", elemento(it1));
+ iterador = first(&jogadores[0].mao);
+ removeItemMiddleLista(&jogadores[0].mao,teste,iterador);
  //ite ultimo = last(&jogadores[0].mao);
  printf("primeiro elemento da mao do jogador 1 - %c\n\n\n", elemento(iterador));
- printf("proximo elemento da mao do jogador 1 - %c\n\n\n", elemento(next((next(iterador)))));
+ printf("proximo elemento da mao do jogador 1 - %c\n\n\n", elemento((next(iterador))));
 
 
+ printaLista(&jogadores[0].mao);
+ printf("---VERIFICAR SE AINDA TA ENCAPSULADO-----\n\n");
+
+ insertLista(&jogadores[0].mao,teste);
+ teste.chave = 'F';
+ insertLista(&jogadores[0].mao,teste);
+ teste.chave = '0';
+ insertLista(&jogadores[0].mao,teste);
+ iterador = first(&jogadores[0].mao);
+
+ printf("primeiro elemento da mao do jogador 1 - %c\n\n\n", elemento(iterador));
+ printf("proximo elemento da mao do jogador 1 - %c\n\n\n", elemento((next(iterador))));
  printaLista(&jogadores[0].mao);
   return 0;
 }
