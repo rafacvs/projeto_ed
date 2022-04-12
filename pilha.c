@@ -58,3 +58,5 @@ int clearPilha(pilha *p) {
   p->topo = 0;  // Remove todos os elementos da pilha igualando o topo a 0.
   return 1;
 }
+
+

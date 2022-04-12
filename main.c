@@ -4,7 +4,6 @@
 #include "lista.h"
 #include "pilha.h"
 #include "utils.h"
-#include "iterador.h"
 
 #define baralhoSize 52
 
