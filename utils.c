@@ -173,7 +173,7 @@ void firstRound(pilha p, int qtdJogadores, PERSON jogadores[qtdJogadores]) {
         scanf("%i", &jogadores[i].aposta_atual);
 
         if (jogadores[i].aposta_atual > jogadores[i].fichas) {
-          printf("kk pobre\n");
+          printf("Fichas insuficientes, você tem %i fichas\n", jogadores[i].fichas);
         } else {
           break;
         }
@@ -243,8 +243,9 @@ void summary(int qtdJogadores, PERSON jogadores[qtdJogadores], PERSON mesa) {
     } else {
       if (mesa.soma > 21 || jogadores[i].soma > mesa.soma) {
         printf("ganhou mt bom\n");
+        jogadores[i].fichas += jogadores[i].aposta_atual * 2;
       } else if (jogadores[i].soma < mesa.soma) {
-        printf("\nPERDESTES!\n");
+        printf("PERDESTES!\n");
       } else {
         printf("empate - fichas devolvidas\n");
         jogadores[i].fichas += jogadores[i].aposta_atual;
@@ -253,4 +254,14 @@ void summary(int qtdJogadores, PERSON jogadores[qtdJogadores], PERSON mesa) {
     }
     printf("\n\n");
   }
+}
+
+void printRules() {
+  printf("=========== REGRAS ===========\n\n");
+  printf("BEM VINDO!\n\n");
+  printf("Cada jogador começa com 1250 fichas.\nSe todas forem perdidas o jogador é eliminado.\n\n");
+  printf("O jogador perde a rodada quando:\nA soma de suas cartas é maior que 21.\nA soma das cartas da mesa é maior que a soma dele.\n\n");
+  printf("O jogador ganha a rodada quando:\nA soma de suas cartas é maior que a soma das cartas da mesa.\n\n");
+  printf("O jogador empata a rodada quando:\nA soma de suas cartas for igual a soma da mesa.\n\n");
+  printf("Empate: As fichas apostadas são devolvidas.\nVitória: As fichas apostadas são dobradas.\nDerrota: As fichas apostadas são perdidas.\n\n");  
 }

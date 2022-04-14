@@ -22,7 +22,8 @@ int main() {
     insertPilha(&p, baralho[i], baralhoSize);
   }
 
-  printf("bem vindo\nregras: cada jogador comeca com 1250 fichas. perdeu = fraco.\n\n");
+  printRules();
+  
   printf("Insira a quantidade de jogadores:\n");
   scanf("%i", &qtdJogadores);
   qtdJogadores++;  // jogadores qtd - 1 = mesa
