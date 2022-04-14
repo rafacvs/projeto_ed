@@ -29,7 +29,7 @@ void comprarCarta(pilha *p, PERSON *jogador, int mesa) {
   if (reg.chave == 'X') {
     printf("carta = 10\n");
   } else {
-    printf("carta = %c\n", reg.chave);
+    printf("carta = %c\n", reg.chave);//mudar o acesso ao campo, com iterador.
   }
 
   if (reg.chave == 65) {

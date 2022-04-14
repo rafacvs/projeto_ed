@@ -1,5 +1,7 @@
+
 #ifndef LISTA_H
 #define LISTA_H
+
 
 /*
 Gabriel Bellon de Carvalho - 802430
@@ -25,6 +27,11 @@ typedef struct {
   unsigned qtd;
 } lista;
 
+typedef struct{
+    POINTER posicao;
+    lista* estrutura;
+}ite;
+
 void initializeLista(lista *l);
 void insertLista(lista *l, REG reg);     // insere elemento no comeÃ§o
 void insertEndLista(lista *l, REG reg);  // insere elemento no final
@@ -34,5 +41,17 @@ int sizeLista(lista *l);
 void printaLista(lista *l);
 void destroiLista(lista *l);
 void clearLista(lista *l);
+
+
+ite first(lista* l );
+ite last(lista* l);
+ite next(ite l);
+
+int acabou( ite i );
+
+char elemento(ite l);
+char removeItemMiddleLista(lista *l, REG reg, ite i);
+
+void insertMiddleLista(lista *l,REG reg, ite i);
 
 #endif

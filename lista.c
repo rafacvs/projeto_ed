@@ -1,5 +1,6 @@
 #include "lista.h"
 
+
 #include <stdio.h>
 #include <stdlib.h>
 /*
@@ -108,4 +109,77 @@ void clearLista(lista *l) {  // percorre a lista e esvazia.O(N);
 void destroiLista(lista *l) {
   clearLista(l);  // esvazia a lista.
   free(l->head);  // destroi a lista.
+}
+
+
+
+ite first(lista* l ){
+    ite i;
+    i.posicao = l->head->next;
+    i.estrutura = l;
+    return i;
+}
+ite last(lista* l ){
+    ite i;
+    i.posicao = l->head->prev;
+    i.estrutura = l;
+    return i;
+}
+char elemento(ite l){
+    return l.posicao->reg.chave;
+}
+
+ite next(ite l){
+    if(!acabou(l) || l.estrutura->qtd==0){
+        l.posicao = l.posicao->next;
+        return l;
+    }//oq fazer se estiver no ultimo ?
+
+}
+
+int acabou( ite i ) {
+    return i.posicao->next == i.estrutura->head;
+}
+
+//para adicionar no meio, tem duas opções, dps de certo item, ou antes
+// se foi dps do el2 ficaria =   <-head -> (<-el1) -> (<-el2) -> (<-el3)
+// <-head -> (<-el1) -> (<-el2) ->(<-el4)-> (<-el3)
+
+void insertMiddleLista(lista *l,REG reg, ite i){
+    POINTER new = (POINTER)malloc(sizeof(ELEM));
+    new->reg = reg;
+    int tam = sizeLista(l);
+
+    new->next = i.posicao->next;
+    i.posicao->next->prev = new;//caso especial, um item na lista.
+    i.posicao->next = new;
+    new->prev = i.posicao;
+
+    l->qtd++;
+}
+
+char removeItemMiddleLista(lista *l, REG reg, ite i){//remove o item que o iterador aponta.
+    if(l->qtd==0){
+        return -1;//so nao posso remover a head/sentinela.
+    }
+    ite inicio = first(l);
+    POINTER remove = (POINTER)malloc(sizeof(ELEM));
+    reg = remove->reg;
+    int itemremovido = reg.chave;
+
+    if(acabou(i)){//caso o item seja o ultimo da lista.
+        itemremovido = removeItemEndLista(l,reg);
+        return itemremovido;
+    }
+    else if(inicio.posicao == i.posicao){//caso seja o primeiro elemento.
+        itemremovido = removeItemLista(l,reg);
+        return itemremovido;
+    }
+
+    i.posicao->next->prev = i.posicao->prev;//proximo do item removido agr aponta para o anterior do removido.
+    i.posicao->prev->next = i.posicao->next;//anterior aponta para o proximo.
+
+    free(remove);
+    l->qtd--;
+    return itemremovido;
 }
