@@ -43,5 +43,33 @@ int main() {
 
   summary(qtdJogadores, jogadores, mesa);
 
+  REG reg;
+  lista pi;
+  reg.chave = 'c';
+  initializeLista(&pi);
+  for(int j=0;j<10;j++){
+    reg.chave = 'a'+j;
+    insertLista(&pi,reg);
+  }
+
+  printf("-- %d\n",listComparisson(last(&pi),first(&pi)));
+
+
+  printf("\n\n");
+
+
+  //ite dois = last(&pi);
+
+ for(ite um = first(&pi);!acabou(um);um = next(um)){
+        for(ite dois = next(um);!acabou(dois);dois = next(dois)){
+             if(listComparisson(um,dois)==1){//
+                swapi(um,dois);
+             }
+        }
+    printf("\n");
+ }
+
+  printaLista(&pi);
   return 0;
 }
+

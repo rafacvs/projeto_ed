@@ -41,7 +41,7 @@ int sizeLista(lista *l);
 void printaLista(lista *l);
 void destroiLista(lista *l);
 void clearLista(lista *l);
-
+void swapi(ite one, ite two);
 
 ite first(lista* l );
 ite last(lista* l);
@@ -53,5 +53,5 @@ char elemento(ite l);
 char removeItemMiddleLista(lista *l, REG reg, ite i);
 
 void insertMiddleLista(lista *l,REG reg, ite i);
-
+int listComparisson(ite ite1, ite ite2);
 #endif

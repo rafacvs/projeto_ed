@@ -138,7 +138,7 @@ ite next(ite l){
 }
 
 int acabou( ite i ) {
-    return i.posicao->next == i.estrutura->head;
+    return i.posicao == i.estrutura->head;
 }
 
 //para adicionar no meio, tem duas opções, dps de certo item, ou antes
@@ -167,7 +167,7 @@ char removeItemMiddleLista(lista *l, REG reg, ite i){//remove o item que o itera
     reg = remove->reg;
     int itemremovido = reg.chave;
 
-    if(acabou(i)){//caso o item seja o ultimo da lista.
+    if(i.posicao->next==i.estrutura->head){//caso o item seja o ultimo da lista.
         itemremovido = removeItemEndLista(l,reg);
         return itemremovido;
     }
@@ -183,3 +183,18 @@ char removeItemMiddleLista(lista *l, REG reg, ite i){//remove o item que o itera
     l->qtd--;
     return itemremovido;
 }
+
+void swapi(ite one, ite two){
+    char temp;
+    temp = two.posicao->reg.chave;
+    two.posicao->reg.chave = one.posicao->reg.chave;
+    one.posicao->reg.chave = temp;
+
+}
+
+int listComparisson(ite ite1, ite ite2){//retorna 1 caso o elemento do primeiro argumento seja maior que o segundo
+    if(elemento(ite1)>elemento(ite2)){
+        return 1;
+    }
+    return 0;
+ }
