@@ -1,8 +1,10 @@
 #include "utils.h"
+
+#include <conio.h>
+#include <ctype.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
-
 
 int getValue(char card, int aceValue) {
   switch (card) {
@@ -68,46 +70,47 @@ void shuffle(int vetor[], int n) {
   }
 }
 
-
 void comprarCarta(pilha *p, PERSON *jogador, int mesa) {
-  // se mesa for igual a 1, quer dizer que a mesa esta comprandos cartas.
+  if (jogador->soma < 21) {
+    // se mesa for igual a 1, quer dizer que a mesa esta comprandos cartas.
 
-  int aceValue = -1;
-  char option;
+    int aceValue = -1;
+    char option;
 
-  REG reg;
+    REG reg;
 
-  topoPilha(p, &reg.chave);
+    topoPilha(p, &reg.chave);
 
-  if (reg.chave == 'X') {
-    printf("carta = 10\n");
-  } else {
-    printf("carta = %c\n", reg.chave);  // mudar o acesso ao campo, com iterador.
-  }
-
-  if (reg.chave == 65) {
-    if (mesa == 0) {
-      printf("A vale 11? (S ou N)\n");
-      scanf(" %c", &option);
+    if (reg.chave == 'X') {
+      printf("carta = 10\n");
     } else {
-      if (jogador->soma + 11 > 21)
-        option = 'N';
-      else
-        option = 'S';
+      printf("carta = %c\n", reg.chave);  // mudar o acesso ao campo, com iterador.
     }
 
-    if (option == 'S') {
-      aceValue = 1;
-    } else {
-      aceValue = 0;
+    if (reg.chave == 65) {
+      if (mesa == 0) {
+        printf("A vale 11? (S ou N)\n");
+        scanf(" %c", &option);
+      } else {
+        if (jogador->soma + 11 > 21)
+          option = 'N';
+        else
+          option = 'S';
+      }
+
+      if (option == 'S') {
+        aceValue = 1;
+      } else {
+        aceValue = 0;
+      }
     }
+
+    jogador->soma += getValue(reg.chave, aceValue);
+
+    insertLista(&jogador->mao, reg);
+
+    removePilha(p);
   }
-
-  jogador->soma += getValue(reg.chave, aceValue);
-
-  insertLista(&jogador->mao, reg);
-
-  removePilha(p);
 }
 
 void jogadaMesa(PERSON jogadores[], int qtdJogadores, pilha *p) {
@@ -148,12 +151,17 @@ void jogadaMesa(PERSON jogadores[], int qtdJogadores, pilha *p) {
     printf("Mesa não comprou!\n\n");
 }
 
-void initializePlayers(int qtdJogadores, PERSON jogadores[qtdJogadores]) {
+void initializePlayers(int qtdJogadores, PERSON jogadores[qtdJogadores], int isFirst) {
   // INITALIZE PLAYER DATA
   for (int i = 0; i < qtdJogadores; i++) {
-    initializeLista(&jogadores[i].mao);
+    if (isFirst == 1) {
+      initializeLista(&jogadores[i].mao);
+    } else {
+      clearLista(&jogadores[i].mao);
+    }
+
     jogadores[i].soma = 0;
-    jogadores[i].fichas = 1250;
+    // jogadores[i].fichas = 1250;
   }
 }
 
@@ -161,72 +169,82 @@ void firstRound(pilha p, int qtdJogadores, PERSON jogadores[qtdJogadores]) {
   printf("=========== DISTRIBUINDO CARTAS ===========\n\n");
   // ROUND INICIAL: 2 CARTAS PARA CADA JOGAODR E MESA
   for (int i = 0; i < qtdJogadores; i++) {
-    if (i == qtdJogadores - 1) {
-      printf("MESA\n");
-    } else {
-      printf("JOGADOR %i\n", i + 1);
-    }
-    printf("--------------\n");
-    if (i != qtdJogadores - 1) {
-      while (1) {
-        printf("quanto quer apostar?\n");
-        scanf("%i", &jogadores[i].aposta_atual);
+    if (jogadores[i].quit != 1) {
+      if (i == qtdJogadores - 1) {
+        printf("MESA\n");
+      } else {
+        printf("JOGADOR %i\n", i + 1);
+      }
+      printf("--------------\n");
+      if (i != qtdJogadores - 1) {
+        while (1) {
+          printf("fichas atuais: %i\n", jogadores[i].fichas);
+          printf("quanto quer apostar?\n");
+          scanf("%i", &jogadores[i].aposta_atual);
 
-        if (jogadores[i].aposta_atual > jogadores[i].fichas) {
-          printf("kk pobre\n");
-        } else {
-          break;
+          if (jogadores[i].aposta_atual > jogadores[i].fichas) {
+            printf("kk pobre\n");
+          } else {
+            break;
+          }
         }
+
+        jogadores[i].fichas -= jogadores[i].aposta_atual;
       }
 
-      jogadores[i].fichas -= jogadores[i].aposta_atual;
+      for (int j = 0; j < 2; j++) {
+        if (i == qtdJogadores - 1)
+          comprarCarta(&p, &jogadores[i], 1);
+        else
+          comprarCarta(&p, &jogadores[i], 0);
+      }
+
+      printf("soma = %i\n\n", jogadores[i].soma);
+
+      printf("\n");
     }
-
-    for (int j = 0; j < 2; j++) {
-      if (i == qtdJogadores - 1)
-        comprarCarta(&p, &jogadores[i], 1);
-      else
-        comprarCarta(&p, &jogadores[i], 0);
-    }
-
-    printf("soma = %i\n\n", jogadores[i].soma);
-
-    printf("\n");
   }
 }
 
 void rounds(pilha p, int qtdJogadores, PERSON jogadores[qtdJogadores]) {
-  printf("\e[1;1H\e[2J");
+  system("@cls||clear");
   printf("=========== JOGADAS INVIDUAIS ===========\n\n");
   // ROUNDS
   for (int i = 0; i < qtdJogadores - 1; i++) {
-    int stop = 0;
-    char option;
+    if (jogadores[i].quit != 1) {
+      int stop = 0;
+      char option;
 
-    while (stop == 0) {
-      printf("\e[1;1H\e[2J");
-      printf("JOGADOR %i\n", i + 1);
-      printf("-----------\n");
-      if (jogadores[i].soma > 21) {
-        jogadores[i].gameover = 1;
-        stop = 1;
-        break;
+      while (stop == 0) {
+        system("@cls||clear");
+        printf("JOGADOR %i\n", i + 1);
+        printf("-----------\n");
+        if (jogadores[i].soma > 21) {
+          jogadores[i].gameover = 1;
+          stop = 1;
+          break;
+        }
+
+        printf("fichas atuais: %i\n\n", jogadores[i].fichas);
+        printf("aposta: %i\n", jogadores[i].aposta_atual);
+        printf("soma atual: %i\n\n", jogadores[i].soma);
+
+        printf("O que voce deseja?\n");
+        printf("  Comprar mais ou parar? (C ou P)\n");
+
+        scanf(" %c", &option);
+        if (option == 'C') {
+          comprarCarta(&p, &jogadores[i], 0);
+          printf("\n");
+        } else {
+          stop = 1;
+        }
       }
+    }
 
-      printf("fichas atuais: %i\n\n", jogadores[i].fichas);
-      printf("aposta: %i\n", jogadores[i].aposta_atual);
-      printf("soma atual: %i\n\n", jogadores[i].soma);
-
-      printf("O que voce deseja?\n");
-      printf("  Comprar mais ou parar? (C ou P)\n");
-
-      scanf(" %c", &option);
-      if (option == 'C') {
-        comprarCarta(&p, &jogadores[i], 0);
-        printf("\n");
-      } else {
-        stop = 1;
-      }
+    if (jogadores[i].soma > 21) {
+      printf("perdeu! press any key to continue...\n");
+      getch();
     }
   }
 }
@@ -235,22 +253,24 @@ void summary(int qtdJogadores, PERSON jogadores[qtdJogadores], PERSON mesa) {
   // RESUMO DA PARTIDA
   printf("\n\n======== RESUMO DA PARTIDA ========\n\n");
   for (int i = 0; i < qtdJogadores - 1; i++) {
-    printf("JOGADOR %i\n", i + 1);
-    printf("-----------\n");
+    if (jogadores[i].quit != 1) {
+      printf("JOGADOR %i\n", i + 1);
+      printf("-----------\n");
 
-    if (jogadores[i].gameover == 1) {
-      printf("PERDESTES!\n");
-    } else {
-      if (mesa.soma > 21 || jogadores[i].soma > mesa.soma) {
-        printf("ganhou mt bom\n");
-      } else if (jogadores[i].soma < mesa.soma) {
-        printf("\nPERDESTES!\n");
+      if (jogadores[i].gameover == 1) {
+        printf("PERDESTES!\n");
       } else {
-        printf("empate - fichas devolvidas\n");
-        jogadores[i].fichas += jogadores[i].aposta_atual;
-        jogadores[i].aposta_atual = 0;
+        if (mesa.soma > 21 || jogadores[i].soma > mesa.soma) {
+          printf("ganhou mt bom\n");
+        } else if (jogadores[i].soma < mesa.soma) {
+          printf("\nPERDESTES!\n");
+        } else {
+          printf("empate - fichas devolvidas\n");
+          jogadores[i].fichas += jogadores[i].aposta_atual;
+          jogadores[i].aposta_atual = 0;
+        }
       }
+      printf("\n\n");
     }
-    printf("\n\n");
   }
 }
