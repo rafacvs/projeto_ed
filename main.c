@@ -60,14 +60,7 @@ int main() {
 
   //ite dois = last(&pi);
 
- for(ite um = first(&pi);!acabou(um);um = next(um)){
-        for(ite dois = next(um);!acabou(dois);dois = next(dois)){
-             if(listComparisson(um,dois)==1){//
-                swapi(um,dois);
-             }
-        }
-    printf("\n");
- }
+  sortlist(pi);
 
   printaLista(&pi);
   return 0;

@@ -54,4 +54,5 @@ char removeItemMiddleLista(lista *l, REG reg, ite i);
 
 void insertMiddleLista(lista *l,REG reg, ite i);
 int listComparisson(ite ite1, ite ite2);
+void sortlist(lista pi);
 #endif
