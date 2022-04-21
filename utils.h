@@ -25,5 +25,7 @@ void initializePlayers(int qtdJogadores, PERSON jogadores[qtdJogadores], int isF
 void firstRound(pilha p, int qtdJogadores, PERSON jogadores[qtdJogadores]);
 void rounds(pilha p, int qtdJogadores, PERSON jogadores[qtdJogadores]);
 void summary(int qtdJogadores, PERSON jogadores[qtdJogadores], PERSON mesa);
+void printRules();
+void prosseguir();
 
 #endif

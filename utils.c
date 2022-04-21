@@ -136,9 +136,9 @@ void jogadaMesa(PERSON jogadores[], int qtdJogadores, pilha *p) {
           ganhou += 1;
       }
 
-      if (jogadores[qtdJogadores - 1].soma > 21 || ganhou >= ((qtdJogadores - 1) / 2) + 1) {
+      if (jogadores[qtdJogadores - 1].soma >= 21 || ganhou >= ((qtdJogadores - 1) / 2) + 1) {
         if (j == 0)
-          printf("Mesa não comprou!\n\n");
+          printf("Mesa nao comprou!\n\n");
 
         break;
       } else {
@@ -148,7 +148,7 @@ void jogadaMesa(PERSON jogadores[], int qtdJogadores, pilha *p) {
       }
     }
   } else
-    printf("Mesa não comprou!\n\n");
+    printf("Mesa nao comprou!\n\n");
 }
 
 void initializePlayers(int qtdJogadores, PERSON jogadores[qtdJogadores], int isFirst) {
@@ -161,6 +161,7 @@ void initializePlayers(int qtdJogadores, PERSON jogadores[qtdJogadores], int isF
     }
 
     jogadores[i].soma = 0;
+    jogadores[i].gameover = 0;
     // jogadores[i].fichas = 1250;
   }
 }
@@ -169,7 +170,7 @@ void firstRound(pilha p, int qtdJogadores, PERSON jogadores[qtdJogadores]) {
   printf("=========== DISTRIBUINDO CARTAS ===========\n\n");
   // ROUND INICIAL: 2 CARTAS PARA CADA JOGAODR E MESA
   for (int i = 0; i < qtdJogadores; i++) {
-    if (jogadores[i].quit != 1) {
+    if (jogadores[i].quit != 1 || i == qtdJogadores - 1) {
       if (i == qtdJogadores - 1) {
         printf("MESA\n");
       } else {
@@ -216,6 +217,7 @@ void rounds(pilha p, int qtdJogadores, PERSON jogadores[qtdJogadores]) {
       char option;
 
       while (stop == 0) {
+        // if (jogadores[i].soma < 21) {
         system("@cls||clear");
         printf("JOGADOR %i\n", i + 1);
         printf("-----------\n");
@@ -239,11 +241,14 @@ void rounds(pilha p, int qtdJogadores, PERSON jogadores[qtdJogadores]) {
         } else {
           stop = 1;
         }
+        // } else {
+        //   stop = 1;
+        // }
       }
     }
 
     if (jogadores[i].soma > 21) {
-      printf("perdeu! press any key to continue...\n");
+      printf("perdeu! soma = %i\npress any key to continue...\n", jogadores[i].soma);
       getch();
     }
   }
@@ -261,6 +266,8 @@ void summary(int qtdJogadores, PERSON jogadores[qtdJogadores], PERSON mesa) {
         printf("PERDESTES!\n");
       } else {
         if (mesa.soma > 21 || jogadores[i].soma > mesa.soma) {
+          jogadores[i].fichas += (jogadores[i].aposta_atual * 2);
+
           printf("ganhou mt bom\n");
         } else if (jogadores[i].soma < mesa.soma) {
           printf("\nPERDESTES!\n");
@@ -273,4 +280,19 @@ void summary(int qtdJogadores, PERSON jogadores[qtdJogadores], PERSON mesa) {
       printf("\n\n");
     }
   }
+}
+
+void printRules() {
+  printf("=========== REGRAS ===========\n\n");
+  printf("BEM VINDO!\n\n");
+  printf("Cada jogador comeca com 1250 fichas.\nSe todas forem perdidas o jogador eh eliminado.\n\n");
+  printf("O jogador perde a rodada quando:\nA soma de suas cartas eh maior que 21.\nA soma das cartas da mesa eh maior que a soma dele.\n\n");
+  printf("O jogador ganha a rodada quando:\nA soma de suas cartas eh maior que a soma das cartas da mesa.\n\n");
+  printf("O jogador empata a rodada quando:\nA soma de suas cartas for igual a soma da mesa.\n\n");
+  printf("Empate: As fichas apostadas sao devolvidas.\nVitoria: As fichas apostadas sao dobradas.\nDerrota: As fichas apostadas sao perdidas.\n\n");
+}
+
+void prosseguir() {
+  printf("Press Any Key to Continue\n");
+  getch();
 }

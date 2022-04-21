@@ -17,7 +17,8 @@ int main() {
   int baralho[52] = {'A', 'A', 'A', 'A', '2', '2', '2', '2', '3', '3', '3', '3', '4', '4', '4', '4', '5', '5', '5', '5', '6', '6', '6', '6', '7', '7', '7', '7', '8', '8', '8', '8', '9', '9', '9', '9', 'X', 'X', 'X', 'X', 'J', 'J', 'J', 'J', 'Q', 'Q', 'Q', 'Q', 'K', 'K', 'K', 'K'};
   pilha p;
 
-  printf("bem vindo\nregras: cada jogador comeca com 1250 fichas. perdeu = fraco.\n\n");
+  printRules();
+
   printf("Insira a quantidade de jogadores:\n");
   scanf("%i", &qtdJogadores);
   qtdJogadores++;  // jogadores qtd - 1 = mesa
@@ -40,8 +41,6 @@ int main() {
     if (quitQtd == qtdJogadores - 1) {
       stopGame = 1;
     } else {
-      printf("\n\nloooop\n\n");
-
       if (isFirst == 1) {
         inicializePilha(&p, baralhoSize);  // Cria uma estrutura de pilha que vai conter todas as cartas de um baralho padrao.}
       } else {
@@ -58,34 +57,34 @@ int main() {
 
       firstRound(p, qtdJogadores, jogadores);
 
-      printf("Press Any Key to Continue\n");
-
-      getch();
+      prosseguir();
 
       rounds(p, qtdJogadores, jogadores);
 
-      printf("Press Any Key to Continue\n");
-
-      getch();
+      prosseguir();
 
       jogadaMesa(jogadores, qtdJogadores, &p);
+
+      prosseguir();
 
       PERSON mesa = jogadores[qtdJogadores - 1];
 
       summary(qtdJogadores, jogadores, mesa);
 
-      printf("Press Any Key to Continue\n");
-
-      getch();
+      prosseguir();
 
       stopGame = 1;
 
       for (int i = 0; i < qtdJogadores - 1; i++) {
-        if (jogadores[i].fichas > 0) stopGame = 0;
+        if (jogadores[i].fichas > 0) {
+          stopGame = 0;
+        } else {
+          jogadores[i].quit = 1;
+        }
       }
 
       for (int i = 0; i < qtdJogadores - 1; i++) {
-        if (jogadores[i].quit != 1) {
+        if (jogadores[i].quit != 1 && jogadores[i].fichas > 0) {
           char option;
 
           system("@cls||clear");
@@ -106,7 +105,6 @@ int main() {
   }
 
   printf("obrigado por jogar viu\n");
-
   getch();
 
   return 0;
