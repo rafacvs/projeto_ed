@@ -1,3 +1,6 @@
+
+#include <conio.h>
+#include <ctype.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
@@ -9,20 +12,13 @@
 #define baralhoSize 52
 
 int main() {
-  int qtdJogadores;
+  int qtdJogadores, stopGame = 0, isFirst = 1;
 
   int baralho[52] = {'A', 'A', 'A', 'A', '2', '2', '2', '2', '3', '3', '3', '3', '4', '4', '4', '4', '5', '5', '5', '5', '6', '6', '6', '6', '7', '7', '7', '7', '8', '8', '8', '8', '9', '9', '9', '9', 'X', 'X', 'X', 'X', 'J', 'J', 'J', 'J', 'Q', 'Q', 'Q', 'Q', 'K', 'K', 'K', 'K'};
   pilha p;
 
-  inicializePilha(&p, baralhoSize);  // Cria uma estrutura de pilha que vai conter todas as cartas de um baralho padrao.
+  printRules();
 
-  shuffle(baralho, baralhoSize);
-
-  for (int i = 0; i < baralhoSize; i++) {
-    insertPilha(&p, baralho[i], baralhoSize);
-  }
-
-  printf("bem vindo\nregras: cada jogador comeca com 1250 fichas. perdeu = fraco.\n\n");
   printf("Insira a quantidade de jogadores:\n");
   scanf("%i", &qtdJogadores);
   qtdJogadores++;  // jogadores qtd - 1 = mesa
@@ -31,17 +27,87 @@ int main() {
 
   PERSON jogadores[qtdJogadores];
 
-  initializePlayers(qtdJogadores, jogadores);
+  for (int i = 0; i < qtdJogadores; i++) {
+    jogadores[i].fichas = 1250;
+  }
 
-  firstRound(p, qtdJogadores, jogadores);
+  while (stopGame == 0) {
+    int quitQtd = 0;
 
-  rounds(p, qtdJogadores, jogadores);
+    for (int i = 0; i < qtdJogadores - 1; i++) {
+      quitQtd += jogadores[i].quit;
+    }
 
-  jogadaMesa(jogadores, qtdJogadores, &p);
+    if (quitQtd == qtdJogadores - 1) {
+      stopGame = 1;
+    } else {
+      if (isFirst == 1) {
+        inicializePilha(&p, baralhoSize);  // Cria uma estrutura de pilha que vai conter todas as cartas de um baralho padrao.}
+      } else {
+        clearPilha(&p);
+      }
 
-  PERSON mesa = jogadores[qtdJogadores - 1];
+      shuffle(baralho, baralhoSize);
 
-  summary(qtdJogadores, jogadores, mesa);
+      for (int i = 0; i < baralhoSize; i++) {
+        insertPilha(&p, baralho[i], baralhoSize);
+      }
+
+      initializePlayers(qtdJogadores, jogadores, isFirst);
+
+      firstRound(p, qtdJogadores, jogadores);
+
+      prosseguir();
+
+      rounds(p, qtdJogadores, jogadores);
+
+      prosseguir();
+
+      jogadaMesa(jogadores, qtdJogadores, &p);
+
+      prosseguir();
+
+      PERSON mesa = jogadores[qtdJogadores - 1];
+
+      summary(qtdJogadores, jogadores, mesa);
+
+      prosseguir();
+
+      stopGame = 1;
+
+      for (int i = 0; i < qtdJogadores - 1; i++) {
+        if (jogadores[i].fichas > 0) {
+          stopGame = 0;
+        } else {
+          jogadores[i].quit = 1;
+        }
+      }
+
+      for (int i = 0; i < qtdJogadores - 1; i++) {
+        if (jogadores[i].quit != 1 && jogadores[i].fichas > 0) {
+          char option;
+
+          system("@cls||clear");
+          printf("JOGADOR %i\n", i + 1);
+          printf("-----------\n");
+          printf("deseja sair? (S ou N)\n");
+
+          scanf(" %c", &option);
+
+          if (option == 'S') {
+            jogadores[i].quit = 1;
+          }
+        }
+      }
+
+      isFirst = 0;
+    }
+  }
+
+  printf("obrigado por jogar viu\n");
+  getch();
+
+  system("@cls||clear");
 
   REG reg;
   lista pi;
@@ -65,4 +131,3 @@ int main() {
   printaLista(&pi);
   return 0;
 }
-
