@@ -75,35 +75,36 @@ void comprarCarta(pilha *p, PERSON *jogador, int mesa) {
   int aceValue = -1;
   char option;
 
-  REG reg;
+    REG reg;
+    char element = writeReg(&reg,topoPilha(p));
 
-  topoPilha(p, &reg.chave);
 
-  if (reg.chave == 'X') {
-    printf("carta = 10\n");
-  } else {
-    printf("carta = %c\n", reg.chave);  // mudar o acesso ao campo, com iterador.
-  }
-
-  if (reg.chave == 65) {
-    if (mesa == 0) {
-      printf("A vale 11? (S ou N)\n");
-      scanf(" %c", &option);
+    if (element == 'X') {
+      printf("carta = 10\n");
     } else {
-      if (jogador->soma + 11 > 21)
-        option = 'N';
-      else
-        option = 'S';
+      printf("carta = %c\n", element);  // mudar o acesso ao campo, com iterador.
     }
 
-    if (option == 'S') {
-      aceValue = 1;
-    } else {
-      aceValue = 0;
+    if (element == 65) {
+      if (mesa == 0) {
+        printf("A vale 11? (S ou N)\n");
+        scanf(" %c", &option);
+      } else {
+        if (jogador->soma + 11 > 21)
+          option = 'N';
+        else
+          option = 'S';
+      }
+
+      if (option == 'S') {
+        aceValue = 1;
+      } else {
+        aceValue = 0;
+      }
     }
   }
 
-  jogador->soma += getValue(reg.chave, aceValue);
+    jogador->soma += getValue(element, aceValue);
 
   insertLista(&jogador->mao, reg);
 
@@ -253,4 +254,21 @@ void summary(int qtdJogadores, PERSON jogadores[qtdJogadores], PERSON mesa) {
     }
     printf("\n\n");
   }
+}
+
+void printRules() {
+  printf("=========== REGRAS ===========\n\n");
+  printf("BEM VINDO!\n\n");
+  printf("Cada jogador comeca com 1250 fichas.\nSe todas forem perdidas o jogador eh eliminado.\n\n");
+  printf("O jogador perde a rodada quando:\nA soma de suas cartas eh maior que 21.\nA soma das cartas da mesa eh maior que a soma dele.\n\n");
+  printf("O jogador ganha a rodada quando:\nA soma de suas cartas eh maior que a soma das cartas da mesa.\n\n");
+  printf("O jogador empata a rodada quando:\nA soma de suas cartas for igual a soma da mesa.\n\n");
+  printf("Empate: As fichas apostadas sao devolvidas.\nVitoria: As fichas apostadas sao dobradas.\nDerrota: As fichas apostadas sao perdidas.\n\n");
+}
+
+void prosseguir() {
+  printf("Press Any Key to Continue\n");
+  getch();
+
+  system("@cls||clear");
 }

@@ -40,10 +40,10 @@ void removePilha(pilha *p) {
   }
 }
 
-int topoPilha(pilha *p, CARTA *item) {
+int topoPilha(pilha *p) {
   if (!emptyPilha(p)) {         // Verifica se a pilha nao esta vazia.
-    *item = p->v[p->topo - 1];  // Coloca o ultimo elemento no endereco de item.
-    return 1;                   // Retorna 1 caso tenha sucesso.
+     // Coloca o ultimo elemento no endereco de item.
+    return p->v[p->topo - 1];                   // Retorna 1 caso tenha sucesso.
   }
 
   return 0;  // Retorna 0 caso nao tenha sucesso.

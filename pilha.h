@@ -18,7 +18,7 @@ int fullPilha(pilha *p, int size);
 unsigned sizePilha(pilha *p);
 void insertPilha(pilha *p, CARTA item, int size);
 void removePilha(pilha *p);
-int topoPilha(pilha *p, CARTA *item);
+int topoPilha(pilha *p);
 int destroiPilha(pilha *p);
 int clearPilha(pilha *p);
 
