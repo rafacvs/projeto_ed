@@ -118,37 +118,46 @@ void jogadaMesa(PERSON jogadores[], int qtdJogadores, pilha *p) {
   printf("-----------\n");
 
   int num, ganhou;  // ganhou verifica de quantos jogadores a mesa ganhou.
+  int players_out = 0;
 
   srand(time(NULL));
   num = rand() % 100;
 
-  if (num <= 15) {
-    printf("Mesa comprou!\n\n");
-    comprarCarta(p, &jogadores[qtdJogadores - 1], 1);
-    printf("soma atual: %i\n\n", jogadores[qtdJogadores - 1].soma);
-  } else if (num > 30) {
-    for (int j = 0;; j++) {
-      ganhou = 0;
+  for (int i = 0; i < qtdJogadores - 1; i++) {
+    if (jogadores[i].gameover == 1) players_out++;
+  }
 
-      for (int i = 0; i < qtdJogadores - 1; i++) {
-        // Se a mesa ganhar da maioria ela nao compra, se nao ela compra e checamos de novo.
-        if (jogadores[qtdJogadores - 1].soma > jogadores[i].soma)
-          ganhou += 1;
+  if (players_out != qtdJogadores - 1) {
+    if (num <= 15) {
+      printf("Mesa comprou!\n\n");
+      comprarCarta(p, &jogadores[qtdJogadores - 1], 1);
+      printf("soma atual: %i\n\n", jogadores[qtdJogadores - 1].soma);
+    } else if (num > 30) {
+      for (int j = 0;; j++) {
+        ganhou = 0;
+
+        for (int i = 0; i < qtdJogadores - 1; i++) {
+          // Se a mesa ganhar da maioria ela nao compra, se nao ela compra e checamos de novo.
+          if (jogadores[qtdJogadores - 1].soma > jogadores[i].soma)
+            ganhou += 1;
+        }
+
+        if (jogadores[qtdJogadores - 1].soma >= 21 || ganhou >= ((qtdJogadores - 1) / 2) + 1) {
+          if (j == 0)
+            printf("Mesa nao comprou!\n\n");
+
+          break;
+        } else {
+          printf("Mesa comprou!\n\n");
+          comprarCarta(p, &jogadores[qtdJogadores - 1], 1);
+          printf("soma atual: %i\n\n", jogadores[qtdJogadores - 1].soma);
+        }
       }
-
-      if (jogadores[qtdJogadores - 1].soma >= 21 || ganhou >= ((qtdJogadores - 1) / 2) + 1) {
-        if (j == 0)
-          printf("Mesa nao comprou!\n\n");
-
-        break;
-      } else {
-        printf("Mesa comprou!\n\n");
-        comprarCarta(p, &jogadores[qtdJogadores - 1], 1);
-        printf("soma atual: %i\n\n", jogadores[qtdJogadores - 1].soma);
-      }
-    }
-  } else
+    } else
+      printf("Mesa nao comprou!\n\n");
+  } else {
     printf("Mesa nao comprou!\n\n");
+  }
 }
 
 void initializePlayers(int qtdJogadores, PERSON jogadores[qtdJogadores], int isFirst) {
@@ -167,6 +176,8 @@ void initializePlayers(int qtdJogadores, PERSON jogadores[qtdJogadores], int isF
 }
 
 void firstRound(pilha p, int qtdJogadores, PERSON jogadores[qtdJogadores]) {
+  system("@cls||clear");
+
   printf("=========== DISTRIBUINDO CARTAS ===========\n\n");
   // ROUND INICIAL: 2 CARTAS PARA CADA JOGAODR E MESA
   for (int i = 0; i < qtdJogadores; i++) {
@@ -217,17 +228,15 @@ void rounds(pilha p, int qtdJogadores, PERSON jogadores[qtdJogadores]) {
       char option;
 
       while (stop == 0) {
-        if (jogadores[i].soma < 21) {
+        if (jogadores[i].soma > 21) {
+          jogadores[i].gameover = 1;
+          stop = 1;
+          break;
+        } else if (jogadores[i].soma < 21) {
           system("@cls||clear");
 
           printf("JOGADOR %i\n", i + 1);
           printf("-----------\n");
-
-          if (jogadores[i].soma > 21) {
-            jogadores[i].gameover = 1;
-            stop = 1;
-            break;
-          }
 
           printf("fichas atuais: %i\n\n", jogadores[i].fichas);
           printf("aposta: %i\n", jogadores[i].aposta_atual);
@@ -244,14 +253,15 @@ void rounds(pilha p, int qtdJogadores, PERSON jogadores[qtdJogadores]) {
             stop = 1;
           }
         } else {
+          printf("ganhou! soma = 21\n");
           stop = 1;
         }
       }
     }
 
     if (jogadores[i].soma > 21) {
-      printf("perdeu! soma = %i\npress any key to continue...\n", jogadores[i].soma);
-      getch();
+      printf("perdeu! soma = %i\n\n", jogadores[i].soma);
+      prosseguir();
     }
   }
 }
@@ -301,4 +311,6 @@ void printRules() {
 void prosseguir() {
   printf("Press Any Key to Continue\n");
   getch();
+
+  system("@cls||clear");
 }

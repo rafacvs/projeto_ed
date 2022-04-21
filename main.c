@@ -107,5 +107,7 @@ int main() {
   printf("obrigado por jogar viu\n");
   getch();
 
+  system("@cls||clear");
+
   return 0;
 }
