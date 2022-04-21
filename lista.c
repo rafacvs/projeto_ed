@@ -113,23 +113,23 @@ void destroiLista(lista *l) {
 
 
 
-ite first(lista* l ){
+ite first(lista* l ){//funcao que retorna um apontador para o primeiro elemento de uma lista.
     ite i;
     i.posicao = l->head->next;
     i.estrutura = l;
     return i;
 }
-ite last(lista* l ){
+ite last(lista* l ){//funcao que retorna um apontador para o ultimo elemento de uma lista.
     ite i;
     i.posicao = l->head->prev;
     i.estrutura = l;
     return i;
 }
-char elemento(ite l){
+char elemento(ite l){//funcao que retorna o elemento que um iterador(apontador) aponta.
     return l.posicao->reg.chave;
 }
 
-ite next(ite l){
+ite next(ite l){//para iterar ao longo da estrutura, ate chegar no ultimo elemento.
     if(!acabou(l) || l.estrutura->qtd==0){
         l.posicao = l.posicao->next;
         return l;
@@ -137,15 +137,15 @@ ite next(ite l){
 
 }
 
-int acabou( ite i ) {
-    return i.posicao->next == i.estrutura->head;
+int acabou( ite i ) {//denota o final da estrutura, que eh quando a posicao do apontar eh a mesma que a da sentinela.
+    return i.posicao == i.estrutura->head;
 }
 
 //para adicionar no meio, tem duas opções, dps de certo item, ou antes
 // se foi dps do el2 ficaria =   <-head -> (<-el1) -> (<-el2) -> (<-el3)
 // <-head -> (<-el1) -> (<-el2) ->(<-el4)-> (<-el3)
 
-void insertMiddleLista(lista *l,REG reg, ite i){
+void insertMiddleLista(lista *l,REG reg, ite i){//funcao que insere um elemento no meio da lista, isso eh logo apos a um iterador
     POINTER new = (POINTER)malloc(sizeof(ELEM));
     new->reg = reg;
     int tam = sizeLista(l);
@@ -167,7 +167,7 @@ char removeItemMiddleLista(lista *l, REG reg, ite i){//remove o item que o itera
     reg = remove->reg;
     int itemremovido = reg.chave;
 
-    if(acabou(i)){//caso o item seja o ultimo da lista.
+    if(i.posicao->next==i.estrutura->head){//caso o item seja o ultimo da lista.
         itemremovido = removeItemEndLista(l,reg);
         return itemremovido;
     }
@@ -182,4 +182,31 @@ char removeItemMiddleLista(lista *l, REG reg, ite i){//remove o item que o itera
     free(remove);
     l->qtd--;
     return itemremovido;
+}
+
+void swapi(ite one, ite two){//faz um swap entre dois apontadores, mudando apenas o seus respectivos registros de lugar.
+    char temp;
+    temp = two.posicao->reg.chave;
+    two.posicao->reg.chave = one.posicao->reg.chave;
+    one.posicao->reg.chave = temp;
+
+}
+
+int listComparisson(ite ite1, ite ite2){//retorna 1 caso o elemento do primeiro argumento seja maior que o segundo
+    if(elemento(ite1)>elemento(ite2)){//compara os elementos(registros) dos argumentos dados.
+        return 1;
+    }
+    return 0;
+ }
+
+void sortlist(lista pi){
+
+ for(ite um = first(&pi);!acabou(um);um = next(um)){//faz um sort simples com complexidade quadratica.
+        for(ite dois = next(um);!acabou(dois);dois = next(dois)){
+             if(listComparisson(um,dois)==1){//
+                swapi(um,dois);
+             }
+        }
+ }
+
 }
