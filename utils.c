@@ -219,8 +219,10 @@ void rounds(pilha p, int qtdJogadores, PERSON jogadores[qtdJogadores]) {
       while (stop == 0) {
         if (jogadores[i].soma < 21) {
           system("@cls||clear");
+
           printf("JOGADOR %i\n", i + 1);
           printf("-----------\n");
+
           if (jogadores[i].soma > 21) {
             jogadores[i].gameover = 1;
             stop = 1;
@@ -263,13 +265,17 @@ void summary(int qtdJogadores, PERSON jogadores[qtdJogadores], PERSON mesa) {
       printf("-----------\n");
 
       if (jogadores[i].gameover == 1) {
-        printf("PERDESTES!\n");
+        printf("\nPERDESTES!\n");
       } else {
-        if (mesa.soma > 21 || jogadores[i].soma > mesa.soma) {
+        if (jogadores[i].soma > 21) {
+          jogadores[i].gameover = 1;
+          printf("\nPERDESTES!\n");
+        } else if ((mesa.soma > 21 || jogadores[i].soma > mesa.soma)) {
           jogadores[i].fichas += (jogadores[i].aposta_atual * 2);
 
           printf("ganhou mt bom\n");
         } else if (jogadores[i].soma < mesa.soma) {
+          jogadores[i].gameover = 1;
           printf("\nPERDESTES!\n");
         } else {
           printf("empate - fichas devolvidas\n");
