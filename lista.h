@@ -42,6 +42,7 @@ void printaLista(lista *l);
 void destroiLista(lista *l);
 void clearLista(lista *l);
 void swapi(ite one, ite two);
+char writeReg(REG *reg, char c);
 
 ite first(lista* l );
 ite last(lista* l);

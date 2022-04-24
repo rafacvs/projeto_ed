@@ -210,3 +210,8 @@ void sortlist(lista pi){
  }
 
 }
+
+char writeReg(REG *reg, char c){
+    reg->chave = c;
+    return c;
+}

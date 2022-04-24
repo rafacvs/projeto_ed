@@ -79,15 +79,17 @@ void comprarCarta(pilha *p, PERSON *jogador, int mesa) {
 
     REG reg;
 
-    topoPilha(p, &reg.chave);
+    char element = writeReg(&reg,topoPilha(p));
 
-    if (reg.chave == 'X') {
+
+    if (element == 'X') {
       printf("carta = 10\n");
     } else {
-      printf("carta = %c\n", reg.chave);  // mudar o acesso ao campo, com iterador.
+      printf("carta = %c\n", element);  // mudar o acesso ao campo, com iterador.
     }
 
-    if (reg.chave == 65) {
+    if (element == 65) {
+
       if (mesa == 0) {
         printf("A vale 11? (S ou N)\n");
         scanf(" %c", &option);
@@ -105,7 +107,7 @@ void comprarCarta(pilha *p, PERSON *jogador, int mesa) {
       }
     }
 
-    jogador->soma += getValue(reg.chave, aceValue);
+    jogador->soma += getValue(element, aceValue);
 
     insertLista(&jogador->mao, reg);
 
