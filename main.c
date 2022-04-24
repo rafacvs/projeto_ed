@@ -90,9 +90,16 @@ int main() {
           system("@cls||clear");
           printf("JOGADOR %i\n", i + 1);
           printf("-----------\n");
-          printf("deseja sair? (S ou N)\n");
+          printf("Deseja sair? (S ou N)\n");
 
-          scanf(" %c", &option);
+          while (1) {
+            scanf(" %c", &option);
+            if (option != 'S' && option != 'N' && option != 's' && option != 'n')
+              printf("Caractere invalido. Digite S ou N.\n");
+            else
+              break;
+          }
+          option = toupper(option);
 
           if (option == 'S') {
             jogadores[i].quit = 1;
@@ -104,7 +111,7 @@ int main() {
     }
   }
 
-  printf("obrigado por jogar viu\n");
+  printf("Obrigado por jogar!!!\n");
   getch();
 
   system("@cls||clear");
