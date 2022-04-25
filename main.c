@@ -1,5 +1,3 @@
-
-#include <conio.h>
 #include <ctype.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -19,8 +17,16 @@ int main() {
 
   printRules();
 
-  printf("Insira a quantidade de jogadores:\n");
-  scanf("%i", &qtdJogadores);
+  printf("Insira a quantidade de jogadores(MAX = 4):\n");
+  
+  while (1) {
+    scanf("%i", &qtdJogadores);
+
+    if (qtdJogadores > 0 && qtdJogadores <= 4)
+      break;
+    else
+      printf("Numero invalido(MAX = 4)\n");
+  }
   qtdJogadores++;  // jogadores qtd - 1 = mesa
 
   printf("\n\n");
@@ -29,6 +35,7 @@ int main() {
 
   for (int i = 0; i < qtdJogadores; i++) {
     jogadores[i].fichas = 1250;
+    jogadores[i].quit = 0;
   }
 
   while (stopGame == 0) {
@@ -111,10 +118,8 @@ int main() {
     }
   }
 
-  printf("Obrigado por jogar!!!\n");
-  getch();
-
-  system("@cls||clear");
+  printf("\nObrigado por jogar!!!\n");
+  getchar();
 
   return 0;
 }

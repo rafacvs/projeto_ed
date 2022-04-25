@@ -1,6 +1,5 @@
 #include "utils.h"
 
-#include <conio.h>
 #include <ctype.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -335,7 +334,7 @@ void printRules() {
 
 void prosseguir() {
   printf("Press Any Key to Continue\n");
-  getch();
+  getchar();
 
   system("@cls||clear");
 }
