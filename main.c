@@ -18,7 +18,7 @@ int main() {
   printRules();
 
   printf("Insira a quantidade de jogadores(MAX = 4):\n");
-  
+
   while (1) {
     scanf("%i", &qtdJogadores);
 
@@ -68,7 +68,7 @@ int main() {
 
       rounds(p, qtdJogadores, jogadores);
 
-      prosseguir();
+
 
       jogadaMesa(jogadores, qtdJogadores, &p);
 

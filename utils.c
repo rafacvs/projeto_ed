@@ -269,12 +269,14 @@ void rounds(pilha p, int qtdJogadores, PERSON jogadores[qtdJogadores]) {
             printf("\n");
           } else {
             stop = 1;
+            prosseguir();
           }
         } else {
               printf("JOGADOR %i\n", i + 1);
               printf("-----------\n");
               printf("Soma atual: %i\n", jogadores[i].soma);
               printf("Sua soma eh igual a 21, nao eh possivel comprar mais.\n\n\n");
+              prosseguir();
               stop = 1;
           //printf("Ganhou! soma = 21\n");
           //stop = 1;
@@ -334,7 +336,8 @@ void printRules() {
 
 void prosseguir() {
   printf("Press Any Key to Continue\n");
-  getchar();
+  char temp;
+  scanf(" %c",&temp);
 
   system("@cls||clear");
 }
