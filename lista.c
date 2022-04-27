@@ -204,7 +204,6 @@ void sortlist(lista pi){
              }
         }
  }
-
 }
 
 

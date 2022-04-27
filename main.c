@@ -57,7 +57,7 @@ int main() {
       shuffle(baralho, baralhoSize);
 
       for (int i = 0; i < baralhoSize; i++) {
-        insertPilha(&p, baralho[i], baralhoSize);
+        insertPilha(&p, baralho[i]);
       }
 
       initializePlayers(qtdJogadores, jogadores, isFirst);
