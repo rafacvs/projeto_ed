@@ -19,24 +19,23 @@ void initializeLista(lista *l) {
   l->qtd = 0;  // tamanho comeca em 0.
 }
 
-void insertLista(lista *l, REG reg) {           // funcao para inserir no comeco da lista, isso eh, logo dps da sentinela
+void insertLista(lista *l, char reg) {           // funcao para inserir no comeco da lista, isso eh, logo dps da sentinela
   POINTER new = (POINTER)malloc(sizeof(ELEM));  // pointer eh um typedef, ponteiro do tipo ELEM.
   new->reg = reg;                               // coloca o registro no seu respectivo campo, o registro eh o dado em si.
   int tam = sizeLista(l);                       // chama a funcao do tamanho e retorna-o.
 
   new->next = l->head->next;  // Elemento a ser inserido aponta para o proximo.
 
-  if (l->head->next != l->head) {
-    l->head->next->prev = new;  // elemento que antes era o primeiro aponta como antecessor o novo elemento.
-  }
+
+  l->head->next->prev = new;  // elemento que antes era o primeiro aponta como antecessor o novo elemento.
+
 
   l->head->next = new;  // proximo da cabeca aponta para o elemento novo.
 
   new->prev = l->head;  // elemento novo aponta pra cabeca como antecessor
 
-  if (tam == 0) {
-    l->head->prev = new;  // Se for o primeito elemento a ser adicionado o antecessor da cabeca aponta pra ele.
-  }
+
+  //l->head->prev = new;  // Se for o primeito elemento a ser adicionado o antecessor da cabeca aponta pra ele.
 
   l->qtd++;
 }
@@ -45,12 +44,12 @@ void printaLista(lista *l) {  // percorre a lista inteira e printa seus respecti
   int result = 0;
   POINTER end = l->head->next;
   while (end != l->head) {
-    printf("carta %c\n", end->reg.chave);
+    printf("carta %c\n", end->reg);
     end = end->next;
   }
 }
 
-void insertEndLista(lista *l, REG reg) {  // insere um elemento no final da lista.
+void insertEndLista(lista *l, char reg) {  // insere um elemento no final da lista.
   POINTER new = (POINTER)malloc(sizeof(ELEM));
   new->reg = reg;
 
@@ -63,14 +62,11 @@ void insertEndLista(lista *l, REG reg) {  // insere um elemento no final da list
   l->qtd++;
 }
 
-int removeItemLista(lista *l, REG reg) {  // remove um item do comeco da lista
+int removeItemLista(lista *l) {  // remove um item do comeco da lista
   POINTER remove = l->head->next;
-  reg = remove->reg;
-  int itemremovido = reg.chave;  // coloca o item a ser removido em uma variavel
 
-  if (l->head->next == l->head) {  // caso o proximo elemento da sentinela for ela mesmo.
-    return -1;
-  }
+  int itemremovido = remove->reg;  // coloca o item a ser removido em uma variavel
+
 
   l->head->next = remove->next;  // agr o proximo da sentinela apontara para o elemento depois do removido.
   remove->next->prev = l->head;  // agora o elemento depois do removido tem como anterior a sentinela.
@@ -80,18 +76,17 @@ int removeItemLista(lista *l, REG reg) {  // remove um item do comeco da lista
   return itemremovido;
 }
 
-int removeItemEndLista(lista *l, REG reg) {  // Remove o ultimo elemento da estrutura.
+int removeItemEndLista(lista *l) {  // Remove o ultimo elemento da estrutura.
   POINTER remove = l->head->prev;            // ultimo elemento.
-  reg = remove->reg;
-  int itemremovido = reg.chave;
 
-  if (l->head->prev == l->head) {
-    return -1;
-  }
+  int itemremovido = remove->reg;
+
+
   l->head->prev = remove->prev;  // anterior da cabeca agr aponta para o elemento anterior ao removido.
   remove->prev->next = l->head;  // o elemento anterior do removido agr aponta para a cabeca.
   free(remove);                  // libera a memoria do item removido.
   l->qtd--;
+
   return itemremovido;
 }
 
@@ -99,7 +94,7 @@ void clearLista(lista *l) {  // percorre a lista e esvazia.O(N);
   int i = 0;
   // tirar a cabeca por ultimo.
   while (i <= sizeLista(l)) {
-    removeItemLista(l, l->head->next->reg);
+    removeItemLista(l);
     i++;
   }
 
@@ -125,8 +120,9 @@ ite last(lista* l ){//funcao que retorna um apontador para o ultimo elemento de 
     i.estrutura = l;
     return i;
 }
+
 char elemento(ite l){//funcao que retorna o elemento que um iterador(apontador) aponta.
-    return l.posicao->reg.chave;
+    return l.posicao->reg;
 }
 
 ite next(ite l){//para iterar ao longo da estrutura, ate chegar no ultimo elemento.
@@ -141,11 +137,11 @@ int acabou( ite i ) {//denota o final da estrutura, que eh quando a posicao do a
     return i.posicao == i.estrutura->head;
 }
 
-//para adicionar no meio, tem duas opções, dps de certo item, ou antes
+//para adicionar no meio, tem duas opï¿½ï¿½es, dps de certo item, ou antes
 // se foi dps do el2 ficaria =   <-head -> (<-el1) -> (<-el2) -> (<-el3)
 // <-head -> (<-el1) -> (<-el2) ->(<-el4)-> (<-el3)
 
-void insertMiddleLista(lista *l,REG reg, ite i){//funcao que insere um elemento no meio da lista, isso eh logo apos a um iterador
+void insertMiddleLista(lista *l,char reg, ite i){//funcao que insere um elemento no meio da lista, isso eh logo apos a um iterador
     POINTER new = (POINTER)malloc(sizeof(ELEM));
     new->reg = reg;
     int tam = sizeLista(l);
@@ -158,21 +154,21 @@ void insertMiddleLista(lista *l,REG reg, ite i){//funcao que insere um elemento 
     l->qtd++;
 }
 
-char removeItemMiddleLista(lista *l, REG reg, ite i){//remove o item que o iterador aponta.
+char removeItemMiddleLista(lista *l, ite i){//remove o item que o iterador aponta.
     if(l->qtd==0){
         return -1;//so nao posso remover a head/sentinela.
     }
     ite inicio = first(l);
     POINTER remove = (POINTER)malloc(sizeof(ELEM));
-    reg = remove->reg;
-    int itemremovido = reg.chave;
+
+    int itemremovido = remove->reg;
 
     if(i.posicao->next==i.estrutura->head){//caso o item seja o ultimo da lista.
-        itemremovido = removeItemEndLista(l,reg);
+        itemremovido = removeItemEndLista(l);
         return itemremovido;
     }
     else if(inicio.posicao == i.posicao){//caso seja o primeiro elemento.
-        itemremovido = removeItemLista(l,reg);
+        itemremovido = removeItemLista(l);
         return itemremovido;
     }
 
@@ -186,9 +182,9 @@ char removeItemMiddleLista(lista *l, REG reg, ite i){//remove o item que o itera
 
 void swapi(ite one, ite two){//faz um swap entre dois apontadores, mudando apenas o seus respectivos registros de lugar.
     char temp;
-    temp = two.posicao->reg.chave;
-    two.posicao->reg.chave = one.posicao->reg.chave;
-    one.posicao->reg.chave = temp;
+    temp = two.posicao->reg;
+    two.posicao->reg = one.posicao->reg;
+    one.posicao->reg = temp;
 
 }
 
@@ -211,7 +207,4 @@ void sortlist(lista pi){
 
 }
 
-char writeReg(REG *reg, char c){
-    reg->chave = c;
-    return c;
-}
+

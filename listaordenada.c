@@ -4,18 +4,14 @@
 
 #include "lista.h"
 int main(){
-    REG reg;
+
     lista pi;
-    reg.chave = 'c';
+    char reg = 'c';
     initializeLista(&pi);
-    for(int j=0;j<10;j++){
-        reg.chave = 'a'+j;
+    for(int j=0;j<8;j++){
+        reg = 'f'+j;
         insertLista(&pi,reg);
     }
-
-    printf("-- %d\n",listComparisson(last(&pi),first(&pi)));
-
-
     printf("\n\n");
 
       //ite dois = last(&pi);

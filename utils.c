@@ -76,9 +76,9 @@ void comprarCarta(pilha *p, PERSON *jogador, int mesa) {
     int aceValue = -1;
     char option;
 
-    REG reg;
 
-    char element = writeReg(&reg,topoPilha(p));
+
+    char element = topoPilha(p);
 
 
     if (element == 'X') {
@@ -115,7 +115,7 @@ void comprarCarta(pilha *p, PERSON *jogador, int mesa) {
 
     jogador->soma += getValue(element, aceValue);
 
-    insertLista(&jogador->mao, reg);
+    insertLista(&jogador->mao, element);
 
     removePilha(p);
   }
