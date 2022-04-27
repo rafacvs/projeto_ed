@@ -1,5 +1,3 @@
-
-#include <conio.h>
 #include <ctype.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -19,8 +17,16 @@ int main() {
 
   printRules();
 
-  printf("Insira a quantidade de jogadores:\n");
-  scanf("%i", &qtdJogadores);
+  printf("Insira a quantidade de jogadores(MAX = 4):\n");
+
+  while (1) {
+    scanf("%i", &qtdJogadores);
+
+    if (qtdJogadores > 0 && qtdJogadores <= 4)
+      break;
+    else
+      printf("Numero invalido(MAX = 4)\n");
+  }
   qtdJogadores++;  // jogadores qtd - 1 = mesa
 
   printf("\n\n");
@@ -29,6 +35,7 @@ int main() {
 
   for (int i = 0; i < qtdJogadores; i++) {
     jogadores[i].fichas = 1250;
+    jogadores[i].quit = 0;
   }
 
   while (stopGame == 0) {
@@ -61,7 +68,7 @@ int main() {
 
       rounds(p, qtdJogadores, jogadores);
 
-      prosseguir();
+
 
       jogadaMesa(jogadores, qtdJogadores, &p);
 
@@ -90,9 +97,16 @@ int main() {
           system("@cls||clear");
           printf("JOGADOR %i\n", i + 1);
           printf("-----------\n");
-          printf("deseja sair? (S ou N)\n");
+          printf("Deseja sair? (S ou N)\n");
 
-          scanf(" %c", &option);
+          while (1) {
+            scanf(" %c", &option);
+            if (option != 'S' && option != 'N' && option != 's' && option != 'n')
+              printf("Caractere invalido. Digite S ou N.\n");
+            else
+              break;
+          }
+          option = toupper(option);
 
           if (option == 'S') {
             jogadores[i].quit = 1;
@@ -104,10 +118,8 @@ int main() {
     }
   }
 
-  printf("obrigado por jogar viu\n");
-  getch();
-
-  system("@cls||clear");
+  printf("\nObrigado por jogar!!!\n");
+  getchar();
 
   return 0;
 }

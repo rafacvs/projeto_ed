@@ -1,6 +1,5 @@
 #include "utils.h"
 
-#include <conio.h>
 #include <ctype.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -83,16 +82,23 @@ void comprarCarta(pilha *p, PERSON *jogador, int mesa) {
 
 
     if (element == 'X') {
-      printf("carta = 10\n");
+      printf("Carta = 10\n");
     } else {
-      printf("carta = %c\n", element);  // mudar o acesso ao campo, com iterador.
+      printf("Carta = %c\n", element);  // mudar o acesso ao campo, com iterador.
     }
 
     if (element == 65) {
 
       if (mesa == 0) {
         printf("A vale 11? (S ou N)\n");
-        scanf(" %c", &option);
+        while (1) {
+            scanf(" %c", &option);
+            if (option != 'S' && option != 'N' && option != 's' && option != 'n')
+              printf("Caractere invalido. Digite S ou N.\n");
+            else
+              break;
+          }
+        option = toupper(option);
       } else {
         if (jogador->soma + 11 > 21)
           option = 'N';
@@ -133,7 +139,7 @@ void jogadaMesa(PERSON jogadores[], int qtdJogadores, pilha *p) {
     if (num <= 15) {
       printf("Mesa comprou!\n\n");
       comprarCarta(p, &jogadores[qtdJogadores - 1], 1);
-      printf("soma atual: %i\n\n", jogadores[qtdJogadores - 1].soma);
+      printf("Soma atual: %i\n\n", jogadores[qtdJogadores - 1].soma);
     } else if (num > 30) {
       for (int j = 0;; j++) {
         ganhou = 0;
@@ -152,7 +158,7 @@ void jogadaMesa(PERSON jogadores[], int qtdJogadores, pilha *p) {
         } else {
           printf("Mesa comprou!\n\n");
           comprarCarta(p, &jogadores[qtdJogadores - 1], 1);
-          printf("soma atual: %i\n\n", jogadores[qtdJogadores - 1].soma);
+          printf("Soma atual: %i\n\n", jogadores[qtdJogadores - 1].soma);
         }
       }
     } else
@@ -192,12 +198,12 @@ void firstRound(pilha p, int qtdJogadores, PERSON jogadores[qtdJogadores]) {
       printf("--------------\n");
       if (i != qtdJogadores - 1) {
         while (1) {
-          printf("fichas atuais: %i\n", jogadores[i].fichas);
-          printf("quanto quer apostar?\n");
+          printf("Fichas atuais: %i\n", jogadores[i].fichas);
+          printf("Quanto quer apostar?\n");
           scanf("%i", &jogadores[i].aposta_atual);
 
           if (jogadores[i].aposta_atual > jogadores[i].fichas) {
-            printf("kk pobre\n");
+            printf("Saldo insuficiente, ");
           } else {
             break;
           }
@@ -213,7 +219,7 @@ void firstRound(pilha p, int qtdJogadores, PERSON jogadores[qtdJogadores]) {
           comprarCarta(&p, &jogadores[i], 0);
       }
 
-      printf("soma = %i\n\n", jogadores[i].soma);
+      printf("Soma = %i\n\n", jogadores[i].soma);
 
       printf("\n");
     }
@@ -230,6 +236,7 @@ void rounds(pilha p, int qtdJogadores, PERSON jogadores[qtdJogadores]) {
       char option;
 
       while (stop == 0) {
+
         if (jogadores[i].soma > 21) {
           jogadores[i].gameover = 1;
           stop = 1;
@@ -240,29 +247,46 @@ void rounds(pilha p, int qtdJogadores, PERSON jogadores[qtdJogadores]) {
           printf("JOGADOR %i\n", i + 1);
           printf("-----------\n");
 
-          printf("fichas atuais: %i\n\n", jogadores[i].fichas);
-          printf("aposta: %i\n", jogadores[i].aposta_atual);
-          printf("soma atual: %i\n\n", jogadores[i].soma);
+          printf("Fichas atuais: %i\n\n", jogadores[i].fichas);
+          printf("Aposta: %i\n", jogadores[i].aposta_atual);
+          printf("Soma atual: %i\n\n", jogadores[i].soma);
 
           printf("O que voce deseja?\n");
           printf("  Comprar mais ou parar? (C ou P)\n");
 
-          scanf(" %c", &option);
+          //scanf(" %c", &option);
+          while (1) {
+            scanf(" %c", &option);
+            if (option != 'C' && option != 'P' && option != 'c' && option != 'p')
+              printf("  Caractere invalido. Digite C ou P.\n");
+            else
+              break;
+          }
+          option = toupper(option);
+
           if (option == 'C') {
             comprarCarta(&p, &jogadores[i], 0);
             printf("\n");
           } else {
             stop = 1;
+            prosseguir();
           }
         } else {
-          printf("ganhou! soma = 21\n");
-          stop = 1;
+              printf("JOGADOR %i\n", i + 1);
+              printf("-----------\n");
+              printf("Soma atual: %i\n", jogadores[i].soma);
+              printf("Sua soma eh igual a 21, nao eh possivel comprar mais.\n\n\n");
+              prosseguir();
+              stop = 1;
+          //printf("Ganhou! soma = 21\n");
+          //stop = 1;
         }
       }
     }
 
     if (jogadores[i].soma > 21) {
-      printf("perdeu! soma = %i\n\n", jogadores[i].soma);
+      printf("Soma atual: %i\n", jogadores[i].soma);
+      printf("Sua soma eh maior que 21, nao eh possivel comprar mais.\n\n\n");
       prosseguir();
     }
   }
@@ -277,20 +301,20 @@ void summary(int qtdJogadores, PERSON jogadores[qtdJogadores], PERSON mesa) {
       printf("-----------\n");
 
       if (jogadores[i].gameover == 1) {
-        printf("\nPERDESTES!\n");
+        printf("PERDEU!\n");
       } else {
         if (jogadores[i].soma > 21) {
           jogadores[i].gameover = 1;
-          printf("\nPERDESTES!\n");
+          printf("PERDEU!\n");
         } else if ((mesa.soma > 21 || jogadores[i].soma > mesa.soma)) {
           jogadores[i].fichas += (jogadores[i].aposta_atual * 2);
 
-          printf("ganhou mt bom\n");
+          printf("GANHOU!\n");
         } else if (jogadores[i].soma < mesa.soma) {
           jogadores[i].gameover = 1;
-          printf("\nPERDESTES!\n");
+          printf("PERDEU!\n");
         } else {
-          printf("empate - fichas devolvidas\n");
+          printf("Empate - fichas devolvidas\n");
           jogadores[i].fichas += jogadores[i].aposta_atual;
           jogadores[i].aposta_atual = 0;
         }
@@ -312,7 +336,8 @@ void printRules() {
 
 void prosseguir() {
   printf("Press Any Key to Continue\n");
-  getch();
+  char temp;
+  scanf(" %c",&temp);
 
   system("@cls||clear");
 }
