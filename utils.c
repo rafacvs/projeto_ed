@@ -335,7 +335,7 @@ void printRules() {
 }
 
 void prosseguir() {
-  printf("Press Any Key to Continue\n");
+  printf("Digite qualquer caractere e de enter...\n");
   char temp;
   scanf(" %c",&temp);
 

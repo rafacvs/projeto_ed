@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <time.h>
+
 
 #include "lista.h"
 int main(){
@@ -9,7 +9,7 @@ int main(){
     char reg = 'c';
     initializeLista(&pi);
     for(int j=0;j<8;j++){
-        reg = 'f'+j;
+        reg = 'a'+j;
         insertLista(&pi,reg);
     }
     printf("\n\n");
