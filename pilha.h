@@ -1,12 +1,13 @@
-#ifndef PILHA_H
-#define PILHA_H
 /*
 Gabriel Bellon de Carvalho - 802430
 Ivan Capeli Navas - 802286
 Rafael de Campos Villa da Silveira - 801968
 */
-typedef char CARTA;
 
+#ifndef PILHA_H
+#define PILHA_H
+
+typedef char CARTA;
 
 typedef struct {
   unsigned topo;

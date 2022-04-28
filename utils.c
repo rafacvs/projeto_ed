@@ -1,3 +1,9 @@
+/*
+Gabriel Bellon de Carvalho - 802430
+Ivan Capeli Navas - 802286
+Rafael de Campos Villa da Silveira - 801968
+*/
+
 #include "utils.h"
 
 #include <ctype.h>
@@ -5,8 +11,8 @@
 #include <stdlib.h>
 #include <time.h>
 
-int getValue(char card, int aceValue) {// Funcao que retorna o valor da carta no 21, foi usado o 'X' como 10 para facilitar a criacao do programa.
-  //tambem eh usada a flag acevalue para checar a opcao preferida do usuario.
+int getValue(char card, int aceValue) { // Funcao que retorna o valor da carta no 21, foi usado o 'X' como 10 para facilitar a criacao do programa.
+  // Tambem eh usada a flag acevalue para checar a opcao preferida do usuario.
   switch (card) {
     case 'A':
       if (aceValue == 1) {
@@ -54,41 +60,41 @@ int getValue(char card, int aceValue) {// Funcao que retorna o valor da carta no
   }
 }
 
-void swap(int v[], int a, int b) {//faz uma troca entre os indices a e b de um vetor v.
+void swap(int v[], int a, int b) { // Faz uma troca entre os indices a e b de um vetor v.
   int temp = v[a];
   v[a] = v[b];
   v[b] = temp;
 }
 
-void shuffle(int vetor[], int n) {//funcao que recebe um vetor e o embaralha de uma maneira "randomica"
+void shuffle(int vetor[], int n) { // Funcao que recebe um vetor e o embaralha de uma maneira "randomica"
   srand(time(NULL));
 
   for (int i = 0; i < n; i++) {
     int j = i + rand() % (n - i);
 
-    swap(vetor, i, j);//troca os elementos de posicao
+    swap(vetor, i, j); // Troca os elementos de posicao
   }
 }
 
-void comprarCarta(pilha *p, PERSON *jogador, int mesa) {//funcao que retira uma carta do baralho(pilha) e adiciona na mao dos jogadores(lista)
-  //int mesa eh uma flag pra denotar que o jogador eh ou nao a mesa(1 para sim, 0 nao)
-  if (jogador->soma < 21) {//checa se a soma atual ja eh maior que 21
-    // se mesa for igual a 1, quer dizer que a mesa esta comprandos cartas.
+void comprarCarta(pilha *p, PERSON *jogador, int mesa) { // Funcao que retira uma carta do baralho(pilha) e adiciona na mao dos jogadores(lista).
+  // int mesa eh uma flag pra denotar que o jogador eh ou nao a mesa(1 para sim, 0 nao).
+  if (jogador->soma < 21) { // Verifica se a soma atual ja eh maior que 21.
+    // Se mesa for igual a 1, quer dizer que a mesa esta comprandos cartas.
 
     int aceValue = -1;
     char option;
 
-    char element = topoPilha(p);//o elemento a ser comparador eh igual ao topo da pilha(elemento a ser retirado)
+    char element = topoPilha(p); // O elemento a ser comparador eh igual ao topo da pilha(elemento a ser retirado).
 
     if (element == 'X') {
-      printf("Carta = 10\n");//Como dito anteriormente, foi usado x no lugar do 10 para facilitar a implementação
+      printf("Carta = 10\n"); // Como dito anteriormente, foi usado x no lugar do 10 para facilitar a implementacao.
     } else {
-      printf("Carta = %c\n", element);  // mudar o acesso ao campo, com iterador.
+      printf("Carta = %c\n", element); // Mudar o acesso ao campo, com iterador.
     }
 
-    if (element == 65) {//se for o A's
+    if (element == 65) { // Se for o A's.
 
-      if (mesa == 0) {//checa se quem pegou um A's foi a mesa ou outros jogadores.
+      if (mesa == 0) { // Checa se quem pegou um A's foi a mesa ou outros jogadores.
         printf("A vale 11? (S ou N)\n");
         while (1) {
             scanf(" %c", &option);
@@ -96,40 +102,40 @@ void comprarCarta(pilha *p, PERSON *jogador, int mesa) {//funcao que retira uma 
               printf("Caractere invalido. Digite S ou N.\n");
             else
               break;
-          }//recebe do jogador a opcao do A's valer 11 ou nao, como dito nas regras
-        option = toupper(option);//coloca a opcao em maiusculo
+          } // Recebe do jogador a opcao do A's valer 11 ou nao, como dito nas regras.
+        option = toupper(option); // Coloca a opcao em maiusculo.
       } else {
-        if (jogador->soma + 11 > 21)//checa pra mesa se ela vai querer ou nao que valha 21.
+        if (jogador->soma + 11 > 21) // Checa para mesa se ela vai querer ou nao que valha 21.
           option = 'N';
         else
           option = 'S';
       }
 
-      if (option == 'S') {//seta a flag para ser usada na funcao getvalue();
+      if (option == 'S') { // Seta a flag para ser usada na funcao getvalue();
         aceValue = 1;
       } else {
         aceValue = 0;
       }
     }
 
-    jogador->soma += getValue(element, aceValue);//adiciona  a carta comprada a soma do jogador atual.
+    jogador->soma += getValue(element, aceValue); // Adiciona  a carta comprada a soma do jogador atual.
 
-    insertLista(&jogador->mao, element);//insere a carta na mao do jogador.
+    insertLista(&jogador->mao, element); // Insere a carta na mao do jogador.
 
-    removePilha(p);//tira a corta atual do topo da pilha.
+    removePilha(p); // Tira a corta atual do topo da pilha.
   }
 }
 
-void jogadaMesa(PERSON jogadores[], int qtdJogadores, pilha *p) {//funcao para emular uma mesa, um jogador que tem como missao ganhar dos outros e dar dinheiro para o cassino.
+void jogadaMesa(PERSON jogadores[], int qtdJogadores, pilha *p) { // Funcao para emular uma mesa, um jogador que tem como missao ganhar dos outros e dar dinheiro para o cassino.
   printf("MESA\n");
   printf("-----------\n");
 
-  int num, ganhou;  // ganhou verifica de quantos jogadores a mesa ganhou.
+  int num, ganhou; // Ganhou verifica de quantos jogadores a mesa ganhou.
   int players_out = 0;
 
   srand(time(NULL));
-  num = rand() % 100;//num denotaria uma mesa que as vezes analisaria a situacao atual do jogo, ou seja, quantas pessoas estao jogando, de quantas pessoas a mesa esta perdendo,
-    //ou apenas compraria a carta mesmo que talvez perca.
+  num = rand() % 100; // num denotaria uma mesa que as vezes analisaria a situacao atual do jogo, ou seja, quantas pessoas estao jogando, de quantas pessoas a mesa esta perdendo,
+    // ou apenas compraria a carta mesmo que talvez perca.
   for (int i = 0; i < qtdJogadores - 1; i++) {
     if (jogadores[i].gameover == 1) players_out++;
   }
@@ -167,7 +173,7 @@ void jogadaMesa(PERSON jogadores[], int qtdJogadores, pilha *p) {//funcao para e
   }
 }
 
-void initializePlayers(int qtdJogadores, PERSON jogadores[qtdJogadores], int isFirst) {//iniciliaza a mao dos jogadores(lista) ou se a lista ja existir, apenas limpa as maos.
+void initializePlayers(int qtdJogadores, PERSON jogadores[qtdJogadores], int isFirst) { // Iniciliaza a mao dos jogadores(lista) ou se a lista ja existir, apenas limpa as maos.
   // INITALIZE PLAYER DATA
   for (int i = 0; i < qtdJogadores; i++) {
     if (isFirst == 1) {
@@ -176,20 +182,20 @@ void initializePlayers(int qtdJogadores, PERSON jogadores[qtdJogadores], int isF
       clearLista(&jogadores[i].mao);
     }
 
-    jogadores[i].soma = 0;//soma das cartas comeca em 0
+    jogadores[i].soma = 0; // Soma das cartas comeca em 0.
     jogadores[i].gameover = 0;
     // jogadores[i].fichas = 1250;
   }
 }
 
-void firstRound(pilha p, int qtdJogadores, PERSON jogadores[qtdJogadores]) {//funcao para o primeiro round, pois eh diferente dos outros rounds.
-  system("@cls||clear");//funcao para limpar o terminal e ficar mais bonito.
+void firstRound(pilha p, int qtdJogadores, PERSON jogadores[qtdJogadores]) { // Funcao para o primeiro round, pois eh diferente dos outros rounds.
+  system("@cls||clear"); // Funcao para limpar o terminal e ficar mais bonito.
 
   printf("=========== DISTRIBUINDO CARTAS ===========\n\n");
-  // ROUND INICIAL: 2 CARTAS PARA CADA JOGAODR E MESA
+  // ROUND INICIAL: 2 CARTAS PARA CADA JOGAODR E MESA.
   for (int i = 0; i < qtdJogadores; i++) {
     if (jogadores[i].quit != 1 || i == qtdJogadores - 1) {
-      if (i == qtdJogadores - 1) {//checa se o atual eh a mesa.
+      if (i == qtdJogadores - 1) { // Checa se o atual eh a mesa.
         printf("MESA\n");
       } else {
         printf("JOGADOR %i\n", i + 1);
@@ -201,17 +207,17 @@ void firstRound(pilha p, int qtdJogadores, PERSON jogadores[qtdJogadores]) {//fu
           printf("Quanto quer apostar?\n");
           scanf("%i", &jogadores[i].aposta_atual);
 
-          if (jogadores[i].aposta_atual > jogadores[i].fichas) {//caso que a aposta digitada pelo jogador seja maior com o que ele realmente tenha.
+          if (jogadores[i].aposta_atual > jogadores[i].fichas) { // Caso que a aposta digitada pelo jogador seja maior com o que ele realmente tenha.
             printf("Saldo insuficiente, ");
           } else {
             break;
           }
         }
 
-        jogadores[i].fichas -= jogadores[i].aposta_atual;//retira das fichas do jogador a aposta que ele fez.
+        jogadores[i].fichas -= jogadores[i].aposta_atual; // Retira das fichas do jogador a aposta que ele fez.
       }
 
-      for (int j = 0; j < 2; j++) {//compra duas cartas para cada jogador.
+      for (int j = 0; j < 2; j++) { // Compra duas cartas para cada jogador.
         if (i == qtdJogadores - 1)
           comprarCarta(&p, &jogadores[i], 1);
         else
@@ -225,22 +231,22 @@ void firstRound(pilha p, int qtdJogadores, PERSON jogadores[qtdJogadores]) {//fu
   }
 }
 
-void rounds(pilha p, int qtdJogadores, PERSON jogadores[qtdJogadores]) {//rounds normais.
+void rounds(pilha p, int qtdJogadores, PERSON jogadores[qtdJogadores]) { // Rounds normais.
   system("@cls||clear");
   printf("=========== JOGADAS INVIDUAIS ===========\n\n");
   // ROUNDS
   for (int i = 0; i < qtdJogadores - 1; i++) {
     if (jogadores[i].quit != 1) {
-      int stop = 0;//flag pra quando o jogador quiser parar de comprar
+      int stop = 0; // Flag pra quando o jogador quiser parar de comprar.
       char option;
 
       while (stop == 0) {
 
-        if (jogadores[i].soma > 21) {//se a soma eh maior que 21, nao da pra comprar mais cartas.
+        if (jogadores[i].soma > 21) { // Se a soma eh maior que 21, nao da pra comprar mais cartas.
           jogadores[i].gameover = 1;
           stop = 1;
           break;
-        } else if (jogadores[i].soma < 21) {//enquanto o jogador tem menos que 21.
+        } else if (jogadores[i].soma < 21) { // Enquanto o jogador tem menos que 21.
           system("@cls||clear");
 
           printf("JOGADOR %i\n", i + 1);
@@ -253,8 +259,7 @@ void rounds(pilha p, int qtdJogadores, PERSON jogadores[qtdJogadores]) {//rounds
           printf("O que voce deseja?\n");
           printf("  Comprar mais ou parar? (C ou P)\n");
 
-          //scanf(" %c", &option);
-          while (1) {//pede a opcao se quer parar ou continuar comprando
+          while (1) { // Pede a opcao se quer parar ou continuar comprando.
             scanf(" %c", &option);
             if (option != 'C' && option != 'P' && option != 'c' && option != 'p')
               printf("  Caractere invalido. Digite C ou P.\n");
@@ -270,15 +275,13 @@ void rounds(pilha p, int qtdJogadores, PERSON jogadores[qtdJogadores]) {//rounds
             stop = 1;
             prosseguir();
           }
-        } else {//caso no qual o jogador faz 21(ou seja ganhou, ou empatou)
+        } else { // Caso no qual o jogador faz 21(ou seja ganhou ou empatou).
               printf("JOGADOR %i\n", i + 1);
               printf("-----------\n");
               printf("Soma atual: %i\n", jogadores[i].soma);
               printf("Sua soma eh igual a 21, nao eh possivel comprar mais.\n\n\n");
               prosseguir();
               stop = 1;
-          //printf("Ganhou! soma = 21\n");
-          //stop = 1;
         }
       }
     }
@@ -291,7 +294,7 @@ void rounds(pilha p, int qtdJogadores, PERSON jogadores[qtdJogadores]) {//rounds
   }
 }
 
-void summary(int qtdJogadores, PERSON jogadores[qtdJogadores], PERSON mesa) {//sumario eh a finalizacao do programa que vai mostrar o resultado dos jogadores.
+void summary(int qtdJogadores, PERSON jogadores[qtdJogadores], PERSON mesa) { // Sumario eh a finalizacao do programa que vai mostrar o resultado dos jogadores.
   // RESUMO DA PARTIDA
   printf("\n\n======== RESUMO DA PARTIDA ========\n\n");
   for (int i = 0; i < qtdJogadores - 1; i++) {
@@ -302,18 +305,18 @@ void summary(int qtdJogadores, PERSON jogadores[qtdJogadores], PERSON mesa) {//s
       if (jogadores[i].gameover == 1) {
         printf("PERDEU!\n");
       } else {
-        if (jogadores[i].soma > 21) {//caso que o jogador tem mais que 21, ou seja perdeu com certeza.
+        if (jogadores[i].soma > 21) { // Caso que o jogador tem mais que 21, ou seja perdeu com certeza.
           jogadores[i].gameover = 1;
           printf("PERDEU!\n");
-        } else if ((mesa.soma > 21 || jogadores[i].soma > mesa.soma)) {//caso que ou a mesa passou de 21(perdeu) ou a soma do jogador eh maior que a mesa.
-          jogadores[i].fichas += (jogadores[i].aposta_atual * 2);//dobram a aposta atual e devolvem.
+        } else if ((mesa.soma > 21 || jogadores[i].soma > mesa.soma)) { // Caso que ou a mesa passou de 21(perdeu) ou a soma do jogador eh maior que a mesa.
+          jogadores[i].fichas += (jogadores[i].aposta_atual * 2); // Dobram a aposta atual e devolvem.
           printf("GANHOU!\n");
-        } else if (jogadores[i].soma < mesa.soma) {//soma da mesa maior que a do jogador e os dois menores que 21.
+        } else if (jogadores[i].soma < mesa.soma) { // Soma da mesa maior que a do jogador e os dois menores que 21.
           jogadores[i].gameover = 1;
           printf("PERDEU!\n");
         } else {
-          printf("Empate - fichas devolvidas\n");//se tiverem a mesma soma e com menos que 21.
-          jogadores[i].fichas += jogadores[i].aposta_atual;//devolve apenas a aposta atual.
+          printf("Empate - fichas devolvidas\n"); // Se tiverem a mesma soma e com menos que 21.
+          jogadores[i].fichas += jogadores[i].aposta_atual; // Devolve apenas a aposta atual.
           jogadores[i].aposta_atual = 0;
         }
       }
@@ -322,7 +325,7 @@ void summary(int qtdJogadores, PERSON jogadores[qtdJogadores], PERSON mesa) {//s
   }
 }
 
-void printRules() {//regras do jogo.
+void printRules() { // Regras do jogo.
   printf("=========== REGRAS ===========\n\n");
   printf("BEM VINDO!\n\n");
   printf("Cada jogador comeca com 1250 fichas.\nSe todas forem perdidas o jogador eh eliminado.\n\n");
@@ -332,7 +335,7 @@ void printRules() {//regras do jogo.
   printf("Empate: As fichas apostadas sao devolvidas.\nVitoria: As fichas apostadas sao dobradas.\nDerrota: As fichas apostadas sao perdidas.\n\n");
 }
 
-void prosseguir() {//funcao para seguir, pedindo um caracter qualquer e depois limpando o console.
+void prosseguir() { // Funcao para seguir, pedindo um caracter qualquer e depois limpando o console.
   printf("Digite qualquer caractere e de enter...\n");
   char temp;
   scanf(" %c",&temp);
@@ -340,28 +343,28 @@ void prosseguir() {//funcao para seguir, pedindo um caracter qualquer e depois l
   system("@cls||clear");
 }
 
-void saidajogadores(int qtdJogadores, PERSON jogadores[qtdJogadores]){//funcao para finalizar ou continuar o programa.
-    for (int i = 0; i < qtdJogadores - 1; i++) {
-        if (jogadores[i].quit != 1 && jogadores[i].fichas > 0) {
-          char option;
+void saidajogadores(int qtdJogadores, PERSON jogadores[qtdJogadores]){ // Funcao para finalizar ou continuar o programa.
+  for (int i = 0; i < qtdJogadores - 1; i++) {
+    if (jogadores[i].quit != 1 && jogadores[i].fichas > 0) {
+      char option;
 
-          system("@cls||clear");
-          printf("JOGADOR %i\n", i + 1);
-          printf("-----------\n");
-          printf("Deseja sair? (S ou N)\n");
+      system("@cls||clear");
+      printf("JOGADOR %i\n", i + 1);
+      printf("-----------\n");
+      printf("Deseja sair? (S ou N)\n");
 
-          while (1) {
-            scanf(" %c", &option);
-            if (option != 'S' && option != 'N' && option != 's' && option != 'n')
-              printf("Caractere invalido. Digite S ou N.\n");
-            else
-              break;
-          }
-          option = toupper(option);
-
-          if (option == 'S') {
-            jogadores[i].quit = 1;//caso todos jogadores estiver com .quit=1 o programa vai finalizar ou se todos jogadores estiverem com fichas.
-          }
-        }
+      while (1) {
+        scanf(" %c", &option);
+        if (option != 'S' && option != 'N' && option != 's' && option != 'n')
+          printf("Caractere invalido. Digite S ou N.\n");
+        else
+          break;
       }
+      option = toupper(option);
+
+      if (option == 'S') {
+        jogadores[i].quit = 1; // Se todos os jogadores estiverem com .quit=1 o programa vai finalizar ou se todos jogadores estiverem sem fichas.
+      }
+    }
+  }
 }
