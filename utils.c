@@ -141,11 +141,11 @@ void jogadaMesa(PERSON jogadores[], int qtdJogadores, pilha *p) {  // Funcao par
   }
 
   if (players_out != qtdJogadores - 1) {
-    if (num <= 15) {
+    if (num <= 5) {
       printf("Mesa comprou!\n\n");
       comprarCarta(p, &jogadores[qtdJogadores - 1], 1);
       printf("Soma atual: %i\n\n", jogadores[qtdJogadores - 1].soma);
-    } else if (num > 30) {
+    } else if (num > 10) {
       for (int j = 0;; j++) {
         ganhou = 0;
 
