@@ -50,6 +50,7 @@ char elemento(ite l);//retorna o registro(char) do elemento.
 //char removeItemMiddleLista(lista *l, REG reg, ite i);
 
 //void insertMiddleLista(lista *l,REG reg, ite i);
-int listComparisson(ite ite1, ite ite2);//compara o primeiro < segundo e retorna 1 caso seja verdade.
-void sortlist(lista pi);//faz o sort da lista de modo quadratico.
+void sortlist(lista pi,int (*listComparisson)(ite um,ite dois));//faz o sort da lista de modo quadratico, o segundo argumento eh uma funcao de ordenacao
+//para funcionar corretamente o retorno dessa funcao deve ser 1 quando o usuario desejar que uma troca seja feita, 0 caso ao contrario.
+
 #endif
