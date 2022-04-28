@@ -189,17 +189,11 @@ void swapi(ite one, ite two){//faz um swap entre dois apontadores, mudando apena
 }
 
 
-/* int listComparisson(ite ite1, ite ite2){//retorna 1 caso o elemento do primeiro argumento seja maior que o segundo
-    if(elemento(ite1)>elemento(ite2)){//compara os elementos(registros) dos argumentos dados.
-        return 1;
-    }
-    return 0;
- }*/
+
 
 void sortlist(lista pi,int (*listComparisson)(ite,ite)){//funcao que dada uma lista e uma funcao de ordenacao, ordena essa lista
     //apartir do resultado das comparacoes de listComparisson, 1 quando para que uma troca seja feita(swapi) e 0 caso nao queira uma troca.
-
-
+    
  for(ite um = first(&pi);!acabou(um);um = next(um)){//faz um sort simples com complexidade quadratica.
         for(ite dois = next(um);!acabou(dois);dois = next(dois)){
              if(   listComparisson(um,dois) == 1   ){//
