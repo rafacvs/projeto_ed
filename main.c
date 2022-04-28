@@ -74,8 +74,6 @@ int main() {
 
       rounds(p, qtdJogadores, jogadores);
 
-
-
       jogadaMesa(jogadores, qtdJogadores, &p);
 
       prosseguir();
@@ -96,7 +94,7 @@ int main() {
         }
       }
 
-      saidajogadores(qtdJogadores,jogadores);
+      saidajogadores(qtdJogadores, jogadores);
 
       isFirst = 0;
     }
