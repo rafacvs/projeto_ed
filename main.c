@@ -57,7 +57,7 @@ int main() {
       shuffle(baralho, baralhoSize);
 
       for (int i = 0; i < baralhoSize; i++) {
-        insertPilha(&p, baralho[i], baralhoSize);
+        insertPilha(&p, baralho[i]);
       }
 
       initializePlayers(qtdJogadores, jogadores, isFirst);
@@ -90,29 +90,7 @@ int main() {
         }
       }
 
-      for (int i = 0; i < qtdJogadores - 1; i++) {
-        if (jogadores[i].quit != 1 && jogadores[i].fichas > 0) {
-          char option;
-
-          system("@cls||clear");
-          printf("JOGADOR %i\n", i + 1);
-          printf("-----------\n");
-          printf("Deseja sair? (S ou N)\n");
-
-          while (1) {
-            scanf(" %c", &option);
-            if (option != 'S' && option != 'N' && option != 's' && option != 'n')
-              printf("Caractere invalido. Digite S ou N.\n");
-            else
-              break;
-          }
-          option = toupper(option);
-
-          if (option == 'S') {
-            jogadores[i].quit = 1;
-          }
-        }
-      }
+      saidajogadores(qtdJogadores,jogadores);
 
       isFirst = 0;
     }
